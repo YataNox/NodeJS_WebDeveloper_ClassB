@@ -164,15 +164,89 @@ function Student(name, korean, math, english, science){
 // 모든 함수에 존재하는 프로토 타입은 특히나 객체의 생성자로 사용할 때 용도가 확실해집니다.
 // 가장 간단한 표현 : 생성자 함수에 메소드 추가용 키워드
 Student.prototype.getSum = function(){
-    return this.kor+this.math+this.english+this.science;
+    return this.kor+this.math+this.english+this.science+this.basicLanguage;
 }
 
 Student.prototype.getAvg = function(){
-    return this.getSum() / 4;
+    return this.getSum() / 5;
 }
 
 Student.prototype.toString = function(){
     return this.name + " : " + this.getSum() + ", " + this.getAvg();
 }
+Student.prototype.basicLanguage = 100;
 std1 = new Student("홍길동", 56, 87, 55, 99);
 console.log(std1.toString());
+
+// 프로토타입은 생성자 안에서 새로 만들어지는 객체에 복사되기 위해 준비되고 있는 공간 - 그 안에 새로 만들어질 객체의 모습을 갖춘 객체가 저장되어 있습니다.
+// 생성자에 멤버변수와 멤버메소드를 추가하려면 반드시 이 프로토타입을 이용하세요.
+
+// 아래처럼 객체를 생성 후에 멤버 메소드를 추가하느냐, 위에 처럼 메서드 추가 후 객체를 만드느냐
+
+// 객체 먼저 만들고, 그 객체에 toString 멤버 메소드 추가
+// std1 = new Student('홍길동', 88,99,77,66);
+// std1.toString = function(){}
+// 현재 객체에만 toString 추가
+
+// 생성자에 toString 추가하고 객체 생성
+// Student.prototype.toString = fucntion(){}
+// std1. new Student('홍길동', 88,99,77,66);
+// 앞으로 Student 생성자를 통해서 만들어지는 모든 객체에 toString 추가
+
+// 8. instanceof 키워드
+// - 인스턴스 : 생성자 함수를 통해 만들어진 객체
+// - 해당 객체가 어떠한 생성자 함수를 통해 생성됐는지를 확인할 때 사용하는 키워드
+console.log('\n');
+function Student(name){this.name=name};
+var std2 = new Student('홍길동');
+console.log(std2 instanceof Student);
+console.log(std2 instanceof Number);
+
+// 9. 상속
+function Rectangle(w, h){
+    var width = w;
+    var height = h;
+    this.getWidth = function() {return width;}
+    this.getHeight = function() {return height;}
+    this.setWidth = function(value) {width = value;}
+    this.setHeight = function(value) {height = value;}
+}
+Rectangle.prototype.getArea = function(){
+    return this.getWidth() * this.getHeight();
+}
+var rectangle = new Rectangle(5, 7);
+rectangle.setWidth(8);
+console.log('AREA : ' + rectangle.getArea());
+console.log('\n');
+
+// Retangle 생성자를 상속
+function Square(length){
+    this.base = Rectangle;
+    // 전달된 length 값을 base 생성자의 w, h에 같은 값을 전달
+    this.base(length, length);
+}
+// 추가로 프로토타입도 복사합니다.
+Square.prototype = Rectangle.prototype;
+
+var rectangle = new Rectangle(5,7);
+var square = new Square(5);
+
+console.log("AREA : " + rectangle.getArea());
+console.log("AREA : " + square.getArea());
+
+console.log('\n');
+
+// 10.Object 객체
+// - toString() 메소드.
+// - 객체를 문자열로 변환할 때 자동으로 호출.
+var Object = new Object();
+console.log(object); // {}
+console.log(object.toString()) // [object Object]
+// - toString() 메소드 재정의
+var student = {
+    name:'홍길동',
+    grade:'고등학교 1학년',
+    toString:function(){return this.name + ":" + this.grade;}
+}
+console.log(student);
+// {name : '홍길동', grade : '고등학교 1학년', toString:[Function : toString]}
