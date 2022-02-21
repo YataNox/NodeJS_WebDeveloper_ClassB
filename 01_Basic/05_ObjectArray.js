@@ -81,3 +81,31 @@ console.log(newObject.myName); // myName
 newObject.sayNode(); // Node;
 newObject.sayJS(); // JS
 console.log(newObject.ES6); // Fantastic
+
+// 객체의 구조 분해
+console.log();
+const sayJ = newObject.sayJS; // 객체내의 함수를 별도의 변수에 저장
+sayJ();
+var sayN = newObject.sayNode;
+sayNode();
+var es6 = newObject.ES6;
+console.log(newObject.ES6);
+console.log(es6);
+
+// 객체의 구조 분해를 하지 말아야 하는 경우 - this를 사용하는 객체는 구조분해를 하지 않는 것이 좋습니다.
+const candyMachine = {
+    status : {
+        name : 'node',
+        count : 5,
+    },
+    getCandy(){
+        this.status.count--;
+        return this.status.count;
+    },
+};
+console.log(candyMachine.getCandy());
+var getCandy = candyMachine.getCandy;
+var count = candyMachine.status.count;
+getCandy(); // 에러
+console.log(count);
+// 객체 내의 메소드가 구조 분해 되는 순간 안에 있던 this를 사용할 수 없게 되므로 그 안의 count 또한 없는 변수가 되어 에러를 발생합니다.
