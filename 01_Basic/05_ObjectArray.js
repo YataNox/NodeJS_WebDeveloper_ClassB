@@ -36,3 +36,30 @@ console.log('이름   총점    평균');
 for(var i in students){
     console.log(students[i].toString());
 }
+
+// 문자열의 연산과 함수 변수의 활용
+let sayNode = function(){
+    console.log('Node');
+}; // 단순 함수를 sayNode 변수에 저장. 익명함수를 변수에 넣어서 저장 sayNode();
+// sayNode();
+
+let myName = 'NodeJS';
+let oldObject = {
+    // myName : 'NodeJS',
+    // myName : myName,
+    myName,
+    sayJS:function(){
+        console.log('JS');
+    },
+    //sayNode:function(){
+    //    console.log('Node');
+    //} // 멤버변수 sayNode에 익명함수 대입
+
+    // sayNode:sayNode, // 멤버변수 sayNode에 익명함수가 저장된 변수 sayNode를 대입.
+
+    sayNode, // key이름과 value변수 이름이 같으면 한 번만 써도 (:생략) 무방합니다.
+}
+
+console.log(oldObject.myName);
+oldObject.sayJS();
+oldObject.sayNode();
