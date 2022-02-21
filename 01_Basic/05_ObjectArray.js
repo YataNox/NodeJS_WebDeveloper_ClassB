@@ -63,3 +63,21 @@ let oldObject = {
 console.log(oldObject.myName);
 oldObject.sayJS();
 oldObject.sayNode();
+
+let es = 'ES';
+oldObject[es + '6'] = 'Fantistic'; // es6이라는 멤버변수 생성. 문자열 연산에 의해 변수 이름을 조합한 예
+console.log(oldObject.ES6);
+
+// const 변수로 객체 생성
+const newObject = {
+    myName,
+    sayJS(){
+        console.log('JS');
+    },
+    sayNode,
+    [es + 6] : 'Fantastic',
+};
+console.log(newObject.myName); // myName
+newObject.sayNode(); // Node;
+newObject.sayJS(); // JS
+console.log(newObject.ES6); // Fantastic
