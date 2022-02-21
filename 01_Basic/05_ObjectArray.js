@@ -106,6 +106,26 @@ const candyMachine = {
 console.log(candyMachine.getCandy());
 var getCandy = candyMachine.getCandy;
 var count = candyMachine.status.count;
-getCandy(); // 에러
+// getCandy(); // 에러
 console.log(count);
 // 객체 내의 메소드가 구조 분해 되는 순간 안에 있던 this를 사용할 수 없게 되므로 그 안의 count 또한 없는 변수가 되어 에러를 발생합니다.
+
+// 필요한 데이터 또는 함수의 구조 분해를 한 번에 실행할 수 있습니다. 다만 아래 예제 또한 this를 사용하고 있어서 구조 분해를 하지 않는 것이 좋습니다.
+// const {getCandy, status:{count}} = candyMachine;
+// console.log(getCandy()); // 에러
+// 위와 같이 한 번에 구조 분해를 하기 위해선 중괄호{} 안에 변수 이름을 맞춰서 분해합니다.
+// 분해하지 않으려고 하는 멤버는 중괄호 안에 쓰지 않고 분해에서 제외할 수 있습니다.
+
+// 이는 아래와 같이 배열에 여러 자료를 넣어 놓고 인덱스를 이용하여 따로 따로 추출하는 것과 한 번에 추출하는 모양과 같은 형식으로 사용합니다.
+let array = ['nodejs', {}, 10, true];
+let node = array[0];
+let obj = array[1];
+let bool = array[3];
+console.log(node, obj, bool);
+console.log(obj);
+// 한 번에 추출
+const array2 = ['nodejs2', {}, 20, false];
+const[node2, obj2, , bool2] = array2;
+console.log(node2, obj2, bool2);
+
+// const{myName, sayJS, sayNode, ES6} = newObject;
