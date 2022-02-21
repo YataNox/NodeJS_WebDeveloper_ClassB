@@ -9,8 +9,20 @@ const pm = new Promise((resolve, reject)=>{
     }
 });
 
-pm.then(()=>{
-    console.log("짝수입니다.");
-}).catch(()=>{
-    console.log("홀수입니다.");
-});
+// pm.then(()=>{
+//     console.log("짝수입니다.");
+// }).catch(()=>{
+//     console.log("홀수입니다.");
+// });
+
+// const k = 36;
+// const pm = new Promise((resolve,reject)=>{
+//     if(k%2 == 0) resolve("짝수입니다.");
+//     else reject("홀수입니다.");
+// });
+
+// pm.then((message)=>{
+//     console.log('0' + message);
+// }).catch((error)=>{
+//     console.error(error);
+// });
