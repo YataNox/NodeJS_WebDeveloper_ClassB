@@ -59,3 +59,19 @@ pm.then((message)=>{
 }).finally(()=>{ 
     console.log('무조건 실행'); // 성공 실패 중 하나와 함께 반드시 실행
 });
+
+// promise를 사용하지 않았을 때
+const printString = (string, callback) => {
+    var k = Math.floor(Math.random() * 10000) + 1; // 0~9초 사이의 랜덤한 시간 계산(밀리초)
+    setTimeout(() => {
+       console.log(string + ' ' + k);
+    }, k);
+    callback();
+}
+printString('A', ()=>{
+    printString("B", ()=>{
+        printString("C", ()=>{
+            
+        });    
+    });
+});
