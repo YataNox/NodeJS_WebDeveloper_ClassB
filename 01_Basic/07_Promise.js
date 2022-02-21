@@ -104,6 +104,7 @@ console.log('작업2만 일단 끝');
 */
 
 // Promise로 실행
+/*
 console.log('시작');
 function longRunningTask(){
     return new Promise((resolve, reject)=>{
@@ -134,4 +135,32 @@ const printString = (string) => {
 
 printString("A").then(()=>{
     printString("B");
+}).then(()=>{
+    return printString("C");
 });
+*/
+
+// 연속 Promise()의 then과 resolve 사용
+const pm = new Promise((resolve, reject)=>{
+    resolve("첫 번째 리졸브");
+});
+
+pm.then((msg1)=>{
+    console.log(msg1);
+    return new Promise((resolve, reject)=>{ // Promise 객체 리턴
+        resolve("두 번째 리졸브");
+    });
+}) // 리턴된 Promise객체에 이어서 .then을 활용합니다.;
+.then((msg2)=>{
+    console.log(msg2);
+    return new Promise((resolve, reject)=>{
+        resolve("세 번째 리졸브");
+    });
+}).then((msg3)=>{
+    console.log(msg3);
+}).catch((error)=>{
+    console.error(error);
+});
+
+console.log("another Code");
+console.log("another Code");
