@@ -41,3 +41,14 @@ console.log('path.format() : ', path.format({
 // 파일 경로를 사용하던 중 \나/를 실수로 여러번 쓴 걸 수정합니다
 console.log('path.normalize() : ',
 path.normalize('D:///heejoonk\\\node_js\\\javascript_ex1.js'));
+
+console.log('-------------------------------------');
+// 파일의 경로가 절대경로인지 상대경로인지 true false로 표시합니다.
+console.log('path.inAbsolute(C:\\):', path.isAbsolute("C:\\"));
+console.log('path.isAbsolute(./home):', path.isAbsolute('./home'));
+
+// 인수로 나오는 경로와 경로 사이에 이동 경로를 표시합니다.
+console.log('path.relative():',
+    path.relative('D:\\JAVA2\\node_js\\javascript_ex1.js', 'D:\\')
+);
+// path.relative(); ..\..\.. -> 세 번 부모 폴더로 이동
