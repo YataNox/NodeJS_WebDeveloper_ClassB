@@ -13,3 +13,8 @@ const interval = setInterval(()=>{
 // 타이머 종료
 clearTimeout(timeout); // 아직 지정된 시간이 지나지 않았다면 실행전 종료
 clearInterval(interval); // 반복실행 종료
+
+// 즉시 실행
+const immediate = setImmediate(()=>{console.log('즉시 실행');});
+// 즉시 실행 종료
+clearImmediate(immediate);
