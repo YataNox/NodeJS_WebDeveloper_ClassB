@@ -52,3 +52,14 @@ console.log('path.relative():',
     path.relative('D:\\JAVA2\\node_js\\javascript_ex1.js', 'D:\\')
 );
 // path.relative(); ..\..\.. -> 세 번 부모 폴더로 이동
+
+// 처음 경로부터 이후 나오는 경로로 이동한 폴더를 표시합니다
+console.log('path.join():', path.join(__dirname, '..', '/heejoonk', '.', '/node.js'));
+// 현재 폴더에서 부모폴더로 이동, heejoonk폴더로 이동, 현재 폴더에서,
+// nodejs 폴더로 표시
+// 결과 : D:\heejoonk\heejoonk\node_js
+// 이동 경로에 해당 폴더가 없어도 경로 이름은 조합되어 결과로 나옵니다.
+// ------------------------------------------------------------------
+// resolve와 join은 비슷하지만 '/' 표시를 절대경로나 상대경로로 보느냐가 다릅니다.
+// resolve는 절대경로로 보기 때문에 최종 결과 경로가 D:\node_js가 됩니다.
+console.log('patch.resolve():', path.resolve(__dirname, '..', '/heejoonk', '.', 'node_js'));
