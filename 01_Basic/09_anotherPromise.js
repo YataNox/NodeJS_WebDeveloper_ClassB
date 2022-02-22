@@ -19,3 +19,23 @@ async function abcd(){ // await를 사용한 명령은 반드시 async로 만들
 }
 
 abcd();
+
+// Promise의 다른형태 #2
+const promise = new Promise((resolve, reject)=>{
+    resolve("첫 번째 리졸브");
+});
+async function thenfunc(){
+    try{
+        const result = await promise;
+        console.log(result);
+        // 리턴 - 두 번째 리졸브 : 새로운 promise 객체안의 resolve 호출
+        return "두 번째 리졸브";
+    }catch(error){
+        console.log(error);
+    }
+}
+thenfunc().then((result2)=>{
+    console.log(result2);
+}).catch((error)=>{
+    console.error(error);
+});
