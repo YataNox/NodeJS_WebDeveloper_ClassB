@@ -4,9 +4,12 @@ const http = require('http');
 const fs = require('fs').promises;
 http.createServer(async (req, res)=>{
     try{
-    const data = await fs.readFile('./04_Server.html');
-    res.writeHead(200, {'Content-Type' : 'text/html; charset=utf-8'});
-    res.end(data);
+        const data = await fs.readFile('./04_Server.html');
+        // 헤더에 필요한 내용을 실어서 보내는 역할. 현재는 한글을 위한 속성이 담겨져 있습니다.
+        res.writeHead(200, {'Content-Type' : 'text/html; charset=utf-8'});
+        res.end(data);
+        // 서버가 클라이언트의 요청에 응답을 하는데, 그때 보내주는 브라우져의 표시내용을 보내주는 함수
+        // write(일반 전송), writeHead(헤더내용 전송), end(전송 후 종료를 위한 함수)
     }catch(err){
         console.error(err);
         res.writeHead(500, {'Content-Type' : 'text/plain; charset=utf-8'});
