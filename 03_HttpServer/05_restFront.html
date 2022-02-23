@@ -46,12 +46,13 @@
                 // 입력한 이름을 서버의 users 변수에 추가하고 돌아왔습니다.
                 // 그 users 변수에 있는 이름들을 조회해서 화면에 보여줄겁니다.
                 // 이름이 보여질 곳 <div id="list"></div>
-                getuser(); // user 변수에 있는 이름들을 조회
+                getuser(); // user 변수에 있는 이름들을 조회하고 div 태그에 추가하는 함수
             }catch(error){
                 console.error(err);
             }
             e.target.username.value = '';
         });
+
         async function getuser(){
             try{
                 const res = await axios.get('/users'); // get 메소드 방식의 /users 요청
@@ -69,33 +70,47 @@
                         const span = document.createElement('span'); // <span></span>
                         span.textContent = users[key]; // span 태그안에 키값으로 얻어낸 users값을 삽입
 
-                        // 수정 버튼 생성
-                        // 수정버튼 화면에 추가
-                        const edit = document.createElement('button');
-                        edit.textContent = '수정'; // 버튼에 쓰여질 라벨
-                        // 수정 버튼을 클릭하면 실행될 이벤트 리스너 설정
-                        edit.addEventListener('click', async ()=>{
-                            const name = prompt('바꿀 이름을 입력하세요.'); // 수정할 이름입력
-                            if(!name){
-                                return alert("이름을 반드시 입력하셔야 합니다.");
+                        // 수정버튼 생성
+                        const edit = document.createElement('button');  //<button></button>
+                        edit.textContent = '수정';  // 버튼에 쓰여질 라벨
+                        // 수정버튼 클릭하면 실행될 이벤트 리스너 설정
+                        edit.addEventListener( 'click', async()=>{ 
+                            const name = prompt('바꿀 이름을 입력하세요');  // 수정할 이름 입력
+                            if (!name) {
+                                return alert('이름을 반드시 입력하셔야 합니다');
                             }
                             try{
-                                await axios.put('/user/' + key, {name});
+                                await axios.put('/user/' + key, {name} );
+                                getuser();
+                            }catch(err){
+                                console.error(err);
+                            }
+
+                        });
+
+
+                        // 삭제버튼 생성
+                        const remove = document.createElement('button');
+                        remove.textContent = '삭제'; 
+                        // 삭제버튼 이벤트 설정
+                        remove.addEventListener( 'click', async()=>{ 
+                            try{    
+                                await axios.delete('/user/' + key );
+                                getuser();
                             }catch(err){
                                 console.error(err);
                             }
                         });
 
                         userDiv.appendChild(span); // div 안에 span 삽입
-                        userDiv.appendChild(edit); // div edit 버튼 삽입// 수정버튼 화면에 추가                   
-                        list.appendChild(userDiv); // div 태그를 list 태그에 삽입     
-                        
+                        userDiv.appendChild(edit); // div 안에 수정 버튼 삽입 
+                        userDiv.appendChild(remove);// div 안에 삭제버튼 삽입
+                        list.appendChild(userDiv); // div 태그를 list 태그에 삽입
                     }
                 );
             }catch(error){
                 console.log(error);
             }
-            
         }
         window.onload = getuser;
     </script>
