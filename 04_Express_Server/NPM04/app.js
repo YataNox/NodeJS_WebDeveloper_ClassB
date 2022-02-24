@@ -101,8 +101,11 @@ app.get('/', (req, res)=>{
 
 app.get('/logout', (req, res)=>{
     // id 쿠키를 지우고, /로 리다이렉트 하세요
-    console.log(';fdfd');
-    res.clearCookie('id').redirect('/');
+    res.clearCookie('id', req.cookies.name, {
+        httpOnly:true,
+        path:'/'
+    }).redirect('/');
+    //res.clearCookie('id').redirect('/');
 });
 
 app.listen(app.get('port'), ()=>{
