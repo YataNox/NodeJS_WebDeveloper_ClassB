@@ -4,7 +4,7 @@ const http = require('http');
 const fs = require('fs');
 
 http.createServer((req, res) => {
-    console.log(req.url, req.headers.cookie);
+    console.log(req.url, req.headers.cookie); // 클라이언트의 요청에는 header의 쿠키가 자동으로 동봉됩니다.
     res.writeHead(200, {'Set-Cookie' : 'mycookie=test'});
     res.end('Hello Cookie');
 }).listen(8090, () => {
