@@ -13,6 +13,9 @@ app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+// app.get('/users, (req, res)=>{}); 이와 같은 함수를 라우터라고 부릅니다.
+// 하나의 라우터에는 method와 url이 같이 표시되어 해당 내용으로 응답을 보내줍니다.
+
 app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), '번 포트에서 대기중입니다.');
 });
