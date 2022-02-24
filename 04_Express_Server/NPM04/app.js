@@ -11,9 +11,27 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 //------------------------------------------------------------ 
 
+// express 설정
 const app = express();
-
 app.set('port', process.env.PORT || 8090);
+
+// 공통 미들웨어 설정---------------------------------------------
+app.use(morgan('dev'));
+// 실행결과 : GET / 200 5.315ms - 165
+// method 방식, 응답 결과 코드, 요청과 실행에 걸린 시간 등등
+// app.use(morgan('combined')); 더 자세한 내용을 볼 수도 있습니다.
+app.use(cookieParser());
+app.use(express.json()); // 바디파서 json : json 사용을 위한 모듈
+app.use(express.urlencoded({extended:true})); // 바디 파서 폼데이터 모듈
+// app.use(body-Parser.json());
+// app.use(body-Parser.urlencoded({extended: false}));
+app.use(session({
+    resave:false,
+    saveUninitialized:false,
+    secret:"rladnwls",
+})); // 세션 활용을 위한 미들웨어
+// ----------------------------------------------------------------------
+
 
 app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, '/index.html'));
