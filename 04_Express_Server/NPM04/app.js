@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 // 요청의 본분을 해석 및 구분하는 모듈
 const bodyParser = require('body-parser');
+const exp = require('constants');
 //------------------------------------------------------------ 
 
 // express 설정
@@ -32,9 +33,76 @@ app.use(session({
 })); // 세션 활용을 위한 미들웨어
 // ----------------------------------------------------------------------
 
+app.post('/login', (req, res)=>{
+    // http 서버에서 전달 파라미터를 분해하는 과정
+    // const {query} = url.parse(req.url);
+    // console.log(query);
+    // const {name} = qs.parse(query);
+
+    // express 서버에서 전달 파라미터를 활용하는 과정
+    // console.log(req.body.name);
+    const name = req.body.name;
+
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 1);
+    res.cookie('id', name, {
+        expires : expires,
+        httpOnly : true,
+        path : '/'
+    }); // 파라미터 내용을 쿠키로 추가
+
+    res.redirect('/');
+});
+
 
 app.get('/', (req, res)=>{
-    res.sendFile(path.join(__dirname, '/index.html'));
+    // http 서버에서 쿠키를 얻어오거나 저장하는 방식
+    // console.log(req.url, req.headers.cookie); // 클라이언트의 요청에는 header의 쿠키가 자동으로 동봉됩니다.
+    // res.writeHead(200, {'Set-Cookie' : 'mycookie=test'});
+    /* 
+        res.writeHead(302, {
+            Location: '/',
+            'Set-Cookie' : `name=${encodeURIComponent(name)}; Expires=${expires.toGMTString()}; HttpOnly; Path=/`,
+        });
+    */
+
+    /*
+    express 서버에서 쿠키를 읽어오거나 저장하는 방식
+        1. 저장된 쿠키를 불러와서 활용할 변수 req.cookies
+        console.log(req.cookies);
+        2. 새로운 쿠키의 저장
+        const name = 'HongGilDong';
+        res.cookies('name', encodeURIComponent(name), {
+            expires:new Date(),
+            httpOnly:true,
+            path:'/'
+        });
+        3. 쿠키의 삭제
+        res.clearCookies('name', encodeURIComponent(name), {
+            httpOnly:true,
+            path:'/'
+        });
+    */
+
+    console.log(req.cookies); // 모두 읽어서 출력
+    console.log(req.cookies.test); // test만 출력
+    res.cookie('test', 'cookietest', { // 쿠키에 특정 값을 저장
+        httpOnly : true,
+        path : '/'
+    });
+
+    // name이라는 이름의 쿠키가 있으면 000 님 반갑습니다. send
+    if(req.cookies.id){
+        res.send(`${req.cookies.id}님 안녕하세요.` + '<br><a href="/logout">로그아웃</a>');
+    }else{// id쿠키가 없으면 index.html을 send
+        res.sendFile(path.join(__dirname, '/index.html'));
+    }
+});
+
+app.get('/logout', (req, res)=>{
+    // id 쿠키를 지우고, /로 리다이렉트 하세요
+    console.log(';fdfd');
+    res.clearCookie('id').redirect('/');
 });
 
 app.listen(app.get('port'), ()=>{
