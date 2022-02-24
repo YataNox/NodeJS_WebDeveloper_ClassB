@@ -105,7 +105,7 @@ app.get('/logout', (req, res)=>{
         httpOnly:true,
         path:'/'
     }).redirect('/');
-    //res.clearCookie('id').redirect('/');
+    // res.clearCookie('id').redirect('/');
 });
 
 app.listen(app.get('port'), ()=>{
