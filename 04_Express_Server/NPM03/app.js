@@ -30,6 +30,27 @@ app.get('/about', (req, res)=>{
     res.send('<h2>Hello, About</h2>');
 })
 
+// 3. 미들웨어를 여러개 넣어서 연달아 사용도 할 수 있습니다.
+app.use((req, res, next)=>{
+    console.log('미들웨어 1회 연속 실행');
+    // if(){next();}
+    next();
+},(req, res, next)=>{
+    console.log('미들웨어 2회 연속 실행');
+    next();
+},(req, res, next)=>{
+    console.log('미들웨어 3회 연속 실행');
+    next();
+});
+
+
+
+
+
+
+
+
+
 app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, '/index.html'));
 });
