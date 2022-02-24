@@ -111,3 +111,9 @@ app.get('/logout', (req, res)=>{
 app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), '번 포트에서 대기 중');
 });
+
+// 4. 세션의 저장
+// req.session.id='hello';
+// req.session.data = 'afdafd';
+// 다른 미들웨어에서 req.session.data라는 이름으로 사용가능
+// (영구적 저장)
