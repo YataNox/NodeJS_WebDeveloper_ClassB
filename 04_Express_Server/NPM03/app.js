@@ -60,8 +60,24 @@ app.use((req, res, next)=>{
         // error 말고 router가 인수이면 다음 미들웨어로 이동하라는 뜻입니다.
     }
     */
+   next();
 });
 
+//. 7. 리퀘스트 키워드의 와일드 카드 문자
+app.get('/category/Boots', (req, res)=>{
+    res.send('<h2>Hello Boots</h2>');
+});
+app.get('/category/Heel', (req, res)=>{
+    res.send('<h2>Hello Heel\</h2>');
+});
+// 와일드 카드 키워드를 사용한 라우터는 범위가 넓으므로 가능한 아래쪾에 위치시켜서, 명확한 구분은 먼저 실행되게 하고,
+// 해당 라우터가 없을 때 실행되게 하는 것이 효과적입니다.
+app.get('/category/:name', (req, res)=>{
+    res.send(`<h2>Hello Wild Card Char ${req.params.name}</h2>`);
+});
+//-------------------------------------------------------------------------------------------------------
+
+/*
 // 5. 404 에러 처리
 app.use((req, res, next)=>{
     res.send('404 에러임~!!'); 
@@ -77,8 +93,7 @@ app.use((err, req, res, next)=>{
     res.status(200).send('에러 내용을 브라우져에 알려주지 않으리!');
 });
 //----------------------------------------------------------------------
-
-
+*/
 
 
 
@@ -94,3 +109,14 @@ app.get('/abc', (req, res)=>{
 app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), '번 포트에서 대기중입니다.');
 });
+
+
+// 8.미들웨어의 특성
+// 하나의 미들웨어에서 res.send() 또는 res.sendFile()등을 두 번이상 쓸 수 없습니다. res.json()도 예외는 아닙니다.
+
+// http서버에서 사용하던 res.writeHeader() + res.end()가 합쳐져서 res.send()가 된 것이므로 위 send 두 번 이상 쓰는 건 의도치 않은 에러를 발생합니다.
+// res.json()또한
+// res.writeHeader(200, {'Content-Type': 'application/json'});
+// res.end(FJSON.stringfy({hello:'hong'}));
+// 위 둘이 합쳐져서 res.json({hello:'hong'});로 사용됩니다.
+// 역시 다른 메소드들과 함께 두 번 이상 사용하지 않습니다.
