@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Login Form</title>
+</head>
+<body>
+    <center>
+        <h2>LOGIN FORM</h2>
+        <form action="/login" method="post" id="loginFrm">
+            <label for="id">ID</label><input type="text" name="id" id="id">
+            <label for="pwd">PASSWORD</label><input type="password" name="pwd" id="pwd">
+            <input type="submit" id="submit" value="로그인">
+        </form>
+        <div id="message"></div>
+    </center>
+    <script type="text/javascript">
+        document.getElementById('loginFrm').addEventListener('submit', async (e)=>{
+            e.preventDefault();
+            const id = e.target.id.value;
+            const pwd = e.target.pwd.value;
+            const rs = await axios.post('/login', {id, pwd});
+            const result = rs.data;
+            console.log(result, rs);
+            if(result>0){
+                getMsg(result);
+            }else if(result == 0){
+                e.preventDefault = false;
+                location.reload();
+            }
+        });
+
+        function getMsg(n){
+            if(n == 1){
+                const message = document.getElementById('message');
+                message.innerHTML = '아이디가 없습니다.';
+            }else if(n == 2){
+                const message = document.getElementById('message');
+                message.innerHTML = '비밀번호가 틀립니다.';
+            }
+        }
+    </script>
+</body>
+</html>
