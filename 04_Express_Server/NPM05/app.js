@@ -58,10 +58,6 @@ app.post('/login', (req, res)=>{
             path : '/'
         });
 
-        res.cookie('pwd', pwd, { // 쿠키에 특정 값을 저장
-            httpOnly : true,
-            path : '/'
-        });
         const result = 0;
         console.log(JSON.stringify(result));
         return res.end(JSON.stringify(result));
@@ -71,10 +67,6 @@ app.post('/login', (req, res)=>{
 app.get('/logout', (req, res)=>{
     // id 쿠키를 지우고, /로 리다이렉트 하세요
     res.clearCookie('id', req.cookies.id, {
-        httpOnly:true,
-        path:'/'
-    }).redirect('/');
-    res.clearCookie('pwd', req.cookies.pwd, {
         httpOnly:true,
         path:'/'
     }).redirect('/');
