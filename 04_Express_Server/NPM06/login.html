@@ -26,8 +26,16 @@
                 alert('비밀번호를 입력하세요');
                 return ;
             }
-
-            axios.post('/login', {id, pwd});
+            try{
+                axios.post('/login', {id, pwd});
+                /*if(){
+                    location.href='/';
+                }*/
+            }catch(error){
+                console.error(error);
+            }  
+            e.target.id.value="";
+            e.target.pwd.value="";
         });
     </script>
 </body>
