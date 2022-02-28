@@ -46,8 +46,8 @@ app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, 'multer.html'));
 });
 
-app.post('/upload', (req,res)=>{
-
+app.post('/upload', upload.single('image'), (req,res)=>{
+    
 });
 
 app.listen(app.get('port'), ()=>{
