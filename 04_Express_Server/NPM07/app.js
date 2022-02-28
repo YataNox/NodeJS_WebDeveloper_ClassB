@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -15,13 +14,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(session({
     resave:false,
     saveUninitialized:false,
-    secret:"changdae",  
+    secret:"kimwoojin", // 세션값의 암호화 코드  
 }));  
 
 
 app.get('/' , (req, res)=>{
-    if(req.cookies.id){ 
-        res.send(`${req.cookies.id} 님 반갑습니다` + '<br><a href="/logout">로그아웃</a>');
+    if(req.session.userid){ 
+        res.send(`${req.session.userid} 님 반갑습니다` + '<br><a href="/logout">로그아웃</a>');
     }else{
         res.sendFile(path.join(__dirname, '/login.html'));
     }
@@ -35,7 +34,7 @@ app.post('/login' , (req, res)=>{
     console.log(id, pw);
 
     if(id=='scott' && pw=='tiger'){    
-        res.cookie( 'id' , id , {expires : expires, httpOnly : true, path : '/' }); 
+        req.session.userid = id;
         
         return res.json({msg:'ok'}); // json 데이터를 갖고 호출위치로 되돌아갑니다.
         // send는 화면 전환이 발생하지만, json은 화면 전환없이 리턴이 가능합니다.
@@ -50,9 +49,9 @@ app.post('/login' , (req, res)=>{
 });
 
 app.get('/logout', (req, res) => {
-    // id, pw 쿠키를 지우고, / 로 리다이렉트
-    res.clearCookie( 'id' , req.cookies.id , {httpOnly:true, path:'/'});
-    res.clearCookie( 'pw' , req.cookies.pw , {httpOnly:true, path:'/'});
+    req.session.destroy(function(){
+        req.session;
+    });
     res.redirect('/');
 });
 
