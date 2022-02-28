@@ -2,41 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>로그인 페이지</title>
     <script src="https://unpkg.com/axios@0.25.0/dist/axios.min.js"></script>
 </head>
 <body>
+    <h1>로그인 페이지입니다.</h1>
     <form method="post" id="form">
-        <input type="text" name="id"><br>
-        <input type="password" name="pwd"><br>
-        <input type="submit" value="로그인">
+        <input id="id" name="id" type="text" placeholder="아이디를 입력하세요" /><br>
+        <input id="pw" name="pw" type="password" placeholder="비밀번호를 입력하세요" /><br>
+        <button type="submit">로그인</button>
     </form>
 
     <script type="text/javascript">
-        document.getElementById('form').addEventListener('submit',(e)=>{
-            e.preventDefault(); // form의 submit 동작을 멈춥니다. 동작을 멈추지 않으면, submit이 끝까지 진행되서 화면이 바뀌고, 목적한 일을 할 수가 없습니다. 멈추고 다른 방법으로 submit을 진행하려고 멈춥니다.
-
+        document.getElementById('form').addEventListener(  'submit' , async ( e )=>{ 
+            e.preventDefault(); // form 의 submit 동작을 멈춥니다. 동작을 멈추지 않으면, submit이 끝까지 진행되서 화면이 바뀌고,
+            // 목적한 일을 할수가 없습니다. 멈추고 다른 방법으로 submit을 진행하려고 멈춥니다.
             const id = e.target.id.value;
-            const pwd = e.target.pw.value;
-
-            if(id == ''){
-                alert('이름을 입력하세요.');
-                return ;
-            }else if(pwd=''){
+            const pw = e.target.pw.value;
+            
+            
+            if (id=='') { 
+                alert('이름을 입력하세요');
+                return;
+            }else if(pw==''){
                 alert('비밀번호를 입력하세요');
-                return ;
-            }
+                return;
+            }/* if(id!='scott'){
+                alert('아이디 또는 비밀번호를 확인하세요');
+                return;
+            }if(pw!='tiger'){
+                alert('아이디 또는 비밀번호를 확인하세요');
+                return;
+            } */
             try{
-                axios.post('/login', {id, pwd});
-                /*if(){
-                    location.href='/';
-                }*/
+                const res = await axios.post( "/login", {id, pw} ); // key값과 value값의 변수이름이 같으면 id:id 처럼 쓸필요없이 하나만 써도 됨
+                if(res.data.msg=='ok') location.href='/';
             }catch(error){
                 console.error(error);
-            }  
-            e.target.id.value="";
-            e.target.pwd.value="";
+            }
+            e.target.id.value='';
+            e.target.pw.value='';
         });
+
     </script>
 </body>
 </html>
