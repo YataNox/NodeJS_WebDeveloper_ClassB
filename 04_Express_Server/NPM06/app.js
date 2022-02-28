@@ -39,16 +39,20 @@ app.post('/login' , (req, res)=>{
         
         return res.json({msg:'ok'}); // json 데이터를 갖고 호출위치로 되돌아갑니다.
         // send는 화면 전환이 발생하지만, json은 화면 전환없이 리턴이 가능합니다.
+    }else if(id != 'scott'){
+        return res.json({msg:'없는 아이디입니다.'});
+    }else if(pw != 'tiger'){
+        return res.json({msg:'비밀번호가 맞지 않습니다.'});
     }else{
-        
+        return res.json({msg:'알 수 없는 이유로 로그인이 안됩니다.'});
     }
     
 });
 
 app.get('/logout', (req, res) => {
     // id, pw 쿠키를 지우고, / 로 리다이렉트
-    res.clearCookie( 'id' , req.cookies.name , {httpOnly:true, path:'/'});
-    res.clearCookie( 'pw' , req.cookies.name , {httpOnly:true, path:'/'});
+    res.clearCookie( 'id' , req.cookies.id , {httpOnly:true, path:'/'});
+    res.clearCookie( 'pw' , req.cookies.pw , {httpOnly:true, path:'/'});
     res.redirect('/');
 });
 

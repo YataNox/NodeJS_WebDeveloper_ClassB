@@ -10,7 +10,8 @@
     <form method="post" id="form">
         <input id="id" name="id" type="text" placeholder="아이디를 입력하세요" /><br>
         <input id="pw" name="pw" type="password" placeholder="비밀번호를 입력하세요" /><br>
-        <button type="submit">로그인</button>
+        <button type="submit">로그인</button><br>
+        <div id="message"></div>
     </form>
 
     <script type="text/javascript">
@@ -37,8 +38,9 @@
             try{
                 const res = await axios.post( "/login", {id, pw} ); // key값과 value값의 변수이름이 같으면 id:id 처럼 쓸필요없이 하나만 써도 됨
                 if(res.data.msg=='ok') location.href='/';
-            }catch(error){
-                console.error(error);
+                document.getElementById('message').innerHTML = res.data.msg;
+            }catch(err){
+                console.error(err);
             }
             e.target.id.value='';
             e.target.pw.value='';
