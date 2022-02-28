@@ -3,11 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script src="https://unpkg.com/axios@0.25.0/dist/axios.min.js"></script>
 </head>
 <body>
     <form method="post" id="form">
         <input type="text" name="id"><br>
-        <input type="password" name="pwd">
+        <input type="password" name="pwd"><br>
+        <input type="submit" value="로그인">
     </form>
+
+    <script type="text/javascript">
+        document.getElementById('form').addEventListener('submit',(e)=>{
+            e.preventDefault(); // form의 submit 동작을 멈춥니다. 동작을 멈추지 않으면, submit이 끝까지 진행되서 화면이 바뀌고, 목적한 일을 할 수가 없습니다. 멈추고 다른 방법으로 submit을 진행하려고 멈춥니다.
+
+            const id = e.target.id.value;
+            const pwd = e.target.pw.value;
+
+            if(id == ''){
+                alert('이름을 입력하세요.');
+                return ;
+            }else if(pwd=''){
+                alert('비밀번호를 입력하세요');
+                return ;
+            }
+
+            axios.post('/login', {id, pwd});
+        });
+    </script>
 </body>
 </html>
