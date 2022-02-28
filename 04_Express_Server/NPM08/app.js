@@ -46,7 +46,8 @@ app.get('/', (req, res)=>{
 
 app.post('/upload', upload.single('image'), (req, res)=>{
     console.log(req.file);
-    return res.send('<h2>업로드 되었습니다</h2>')
+    console.log(req.body.title);
+    return res.send(req.body.title);
 });
 
 app.listen(app.get('port'),()=>{
