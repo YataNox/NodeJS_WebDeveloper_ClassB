@@ -8,6 +8,8 @@ app.set('port', process.nextTick.PORT || 3000);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+
+app.use('/', express.static(path.join(__dirname, 'uploads')));
 // 업로드를 하려면 업로드된 파일이 저장될 폴더를 지정해줘야 합니다.
 // 다만 js 모듈에 있는 함수를 이용하여 사용하려는 폴더가 있다면 그냥 사용, 없다면 생성하는 동작을 실행합니다.
 // 파일 폴더와 같은 외부의 리소스를 다루는 작업은 명령 오류와 상관없이 디스크 상태에 따라 오류가 발생할 수 있으므로 예외처리를 해줍니다. 특히나 지금은 readdirSync가 실행될 때 해당 폴더가 없으면 에러가 발생하므로 그에 대한 예외처리를 합니다.
@@ -48,7 +50,7 @@ app.post('/upload', upload.single('image'), (req, res)=>{
     console.log(req.file);
     console.log(req.body.title);
     // req.file이 이미 json형식이므로 바로 리턴합니다.
-    return res.send(req.file);
+    return res.json({title : req.body.title, filename:req.file.filename});
 });
 
 app.listen(app.get('port'),()=>{

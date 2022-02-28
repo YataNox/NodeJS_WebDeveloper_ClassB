@@ -11,6 +11,7 @@
         <button type="submit">업로드</button>
         <div id="filename"></div>
         <div id="message"></div>
+        <div id="img"></div>
     </form>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -22,8 +23,9 @@
             formData.append('title', e.target.title.value);
             try{
                 const msg = await axios.post('/upload', formData); // 완성된 폼 객체를 /upload request로 전송
+                document.getElementById('message').innerHTML = '제목 : ' + msg.data.title;
                 document.getElementById('filename').innerHTML = '업로드 된 파일의 저장 이름 : ' + msg.data.filename;
-                document.getElementById('message').innerHTML = '파일이 업로드 되었습니다.';
+                document.getElementById('img').innerHTML = '<img src="' + msg.data.filename + '" width=200>';
             }catch(err){
                 console.log(err);
             }
