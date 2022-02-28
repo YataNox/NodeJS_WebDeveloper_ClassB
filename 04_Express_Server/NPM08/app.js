@@ -47,7 +47,8 @@ app.get('/', (req, res)=>{
 app.post('/upload', upload.single('image'), (req, res)=>{
     console.log(req.file);
     console.log(req.body.title);
-    return res.send(req.body.title);
+    // req.file이 이미 json형식이므로 바로 리턴합니다.
+    return res.send(req.file);
 });
 
 app.listen(app.get('port'),()=>{

@@ -22,7 +22,7 @@
             formData.append('title', e.target.title.value);
             try{
                 const msg = await axios.post('/upload', formData); // 완성된 폼 객체를 /upload request로 전송
-                document.getElementById('filename').innerHTML = '업로드 된 파일의 저장 이름 : ' + msg.data;
+                document.getElementById('filename').innerHTML = '업로드 된 파일의 저장 이름 : ' + msg.data.filename;
                 document.getElementById('message').innerHTML = '파일이 업로드 되었습니다.';
             }catch(err){
                 console.log(err);
