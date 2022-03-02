@@ -29,6 +29,10 @@ app.get('/pugindex', (req, res)=>{
     res.render(  'index' , { title:'Express & Pug' });
 });
 
+app.get('/include', (req, res)=>{
+    res.render(  'main' , { title:'Express & Pug' });
+});
+
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
 });
