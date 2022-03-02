@@ -15,12 +15,14 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
 
-app.use(cookieParser('nodejsdotenv'));
+// app.use(cookieParser('nodejsdotenv'));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(session({
     resave : false,
     saveUninitialized : false,
-    secret : 'nodejsdotenv', // 저장될 때 사용하는 암호화 키
+    // secret : 'nodejsdotenv'
+    secret : process.env.COOKIE_SECRET, // 저장될 때 사용하는 암호화 키
     cookie : {
         httpOnly : true,
         secure : false,

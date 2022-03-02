@@ -1,7 +1,6 @@
 {
   "name": "npm11",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app"
@@ -18,5 +17,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "keywords": [
+    "kwj"
+  ],
+  "description": ""
 }
