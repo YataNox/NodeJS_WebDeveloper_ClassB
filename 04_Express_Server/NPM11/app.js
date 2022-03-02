@@ -3,6 +3,10 @@ const morgan = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const dotenv = require('dotenv');
+
+dotenv.config(); // 비밀키 비공개를 위한 기본 환경 구성
+
 
 const app = express();
 app.set('port', process.env.PORT || 3000);
@@ -16,7 +20,7 @@ app.use(cookieParser('nodejsdotenv'));
 app.use(session({
     resave : false,
     saveUninitialized : false,
-    secret : 'nodejsdotenv',
+    secret : 'nodejsdotenv', // 저장될 때 사용하는 암호화 키
     cookie : {
         httpOnly : true,
         secure : false,
