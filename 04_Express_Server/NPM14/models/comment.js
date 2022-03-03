@@ -28,6 +28,6 @@ module.exports = class Comment extends Sequelize.Model{
     }
     static associate(db){
         db.Comment.belongsTo(db.User, {foreignKey : 'commenter', targetKey : 'id'});
-        // Comment 모델의 comment필드가 User 모델의 id 필드를 참조하고 있습니다.
+        // Comment 모델의 commenter필드가 User 모델의 id 필드를 참조하고 있습니다.
     }
 };

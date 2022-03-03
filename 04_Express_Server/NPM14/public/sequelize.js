@@ -1,5 +1,5 @@
 getUser();
-
+getComment();
 async function getUser(){
     // 모든 user를 조회해서 user-list 테이블에 표시합니다.
 
@@ -7,11 +7,9 @@ async function getUser(){
     const res = await axios.get('/users');
     // 결과를 사용하기 위하여 변수 만들고 데이터를 추출합니다.
     const users = res.data;
-
     // querySelector : ()의 선택자로 표시된 태그 유형 중 첫 번째 태그를 선택
     // user-list의 tbody
     const tbody = document.querySelector('#user-list tbody');
-
     tbody.innerHTML = ''; // tbody를 비웁니다.
 
     // map함수를 이용해서 전달된 객체내의 데이터 갯수 만큼 반복 실행을 합니다.
@@ -43,6 +41,7 @@ async function getUser(){
     }catch(err){
         console.error(err);
     }
+
 }
 
 // 회원 추가 : 사용자 등록 - user-form이 submit이벤트를 일으키면 실행
@@ -71,4 +70,73 @@ document.getElementById('user-form').addEventListener('submit', async (e)=>{
     e.target.username.value = '';
     e.target.age.value = '';
     e.target.married.checked = false;
+});
+
+async function getComment(){
+    const res = await axios.get('/comments');
+    const comments = res.data;
+   
+    const tbody = document.querySelector('#comment-list tbody');
+    tbody.innerHTML = ''; // tbody를 비웁니다.
+
+    try{
+        comments.map(function(comment){
+            // tr 태그 생성
+            const row = document.createElement('tr');
+
+            // td 태그 생성
+            let td = document.createElement('td');
+            td.textContent = comment.id;// 생성된 태그에 user의 id 삽입
+            row.appendChild(td); // tr안에 td삽입
+
+            td = document.createElement('td');
+            td.textContent = comment.User.name;
+            row.appendChild(td);
+
+            td = document.createElement('td');
+            td.textContent = comment.comment;
+            row.appendChild(td);
+
+            const edit = document.createElement('button');
+            edit.textContent = '수정';
+            td = document.createElement('td');
+            td.appendChild(edit);
+            row.appendChild(td);
+
+            const remove = document.createElement('button');
+            remove.textContent = '삭제';
+            td = document.createElement('td');
+            td.appendChild(remove);
+            row.appendChild(td);
+
+            tbody.appendChild(row); // 완성된 tr을 tbody에 삽입 
+        });
+    }catch(err){
+        console.error(err);
+    }
+}
+
+// 댓글 등록
+document.getElementById('comment-form').addEventListener('submit', async (e)=>{
+    e.preventDefault(); //submit 중지 : 화면전환 방지
+
+    // 이름, 나이, 결혼여부를 변수에 저장
+    const id = e.target.userid.value;
+    const comment = e.target.comment.value;
+    
+    if(!id){return alert('아이디를 입력하세요.');}
+    if(!comment){return alert('댓글을 입력하세요.');}
+
+    try{
+        //post 호출 & 해당 라우터 실행 후 현재 자리로 돌아오되, 리턴되어 오는 값은 없습니다.
+        await axios.post('/comments', {id, comment});
+        // 사용자를 조회해서 user-list 테이블에 표시하는 함수를 실행합니다.
+        getComment();
+    }catch(err){
+        console.error(err);
+    }
+
+    // 사용자 추가-사용자정보 표시 등의 동작을 마치고, 사용자 추가 폼의 입력란들은 다음 사용자 추가 위해 다 비워줍니다
+    e.target.userid.value = '';
+    e.target.comment.value = '';
 });
