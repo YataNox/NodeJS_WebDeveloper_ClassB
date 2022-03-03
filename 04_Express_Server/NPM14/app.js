@@ -16,7 +16,7 @@ nunjucks.configure('views', {express : app, watch :true});
 // 숨김 폴더 및 정적폴더 설정
 // 클라이언트에서 localhost:3003/sequelize.js를 요청하면
 // 서버에서는 localhoseL3003/public/sequelize.js로 응답합니다.
-app.use(express.static(path.join(__dirname), 'public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // config.json의 내부 정보로 연결하기 윈한 db객체를 require합니다.
 const {sequelize} = require('./models');
