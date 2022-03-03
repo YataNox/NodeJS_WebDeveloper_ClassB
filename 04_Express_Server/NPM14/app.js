@@ -13,8 +13,23 @@ app.use(express.urlencoded({extended : false}));
 app.set('view engine', 'html');
 nunjucks.configure('views', {express : app, watch :true});
 
+// 숨김 폴더 및 정적폴더 설정
+// 클라이언트에서 localhost:3003/sequelize.js를 요청하면
+// 서버에서는 localhoseL3003/public/sequelize.js로 응답합니다.
+app.use(express.static(path.join(__dirname), 'public'));
+
 // config.json의 내부 정보로 연결하기 윈한 db객체를 require합니다.
 const {sequelize} = require('./models');
+
+// 라우터들을 수집(require)합니다.
+const indexRouter = require('./routes');
+const usersRouter = require('./routes/users');
+const commentsRouter = require('./routes/comments');
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/comments', commentsRouter);
+
 
 // 데이터 베이스 연결
 // 모델 제작 후 데이터베이스 연결시 해당 모델에 매핑되는 테이블이 없으면 새로 테이블을 만들라는 옵션.
