@@ -39,7 +39,7 @@ async function getCommentOne(id){
                 }
                 try{
                     await axios.patch(`/comments/${comment.id}`, {comment:newComment});
-                    getComment();
+                    getCommentOne(id);
                 }catch(error){
                     console.error(error);
                 }
