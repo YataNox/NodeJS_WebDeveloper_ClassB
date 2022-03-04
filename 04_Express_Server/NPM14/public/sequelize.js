@@ -182,7 +182,7 @@ async function getComment(){
             // 삭제 버튼에 이벤트 리스너 추가
             remove.addEventListener('click', async ()=>{
                 try{
-                    await axios.patch(`/comments/remove/${comment.id}`);
+                    await axios.delete(`/comments/${comment.id}`);
                     getComment();
                 }catch(error){
                     console.error(error);

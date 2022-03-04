@@ -65,7 +65,7 @@ router.patch('/:id', async (req, res, next)=>{
     }
 });
 
-router.patch('/remove/:id', async(req,res,next)=>{
+router.delete('/:id', async(req,res,next)=>{
     try{
 
         const result = await Comment.destroy({
