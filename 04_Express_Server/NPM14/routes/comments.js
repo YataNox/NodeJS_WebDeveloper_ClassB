@@ -32,7 +32,7 @@ router.get('/', async(req, res, next)=>{
         console.log(err);
         next(err); // 에러 루틴이 있는 라우터로 이동
     }
-})
+});
 
 // :id -> 와일드 카드 문자로 전송되는 req.의 url 중 :id 위치에 전송되는 단어를 id 변수에 넣고 진행되는 url입니다.
 // 정확한 구분을 위해서 '/' 라우터보다 위쪽에 위치하면 안됩니다.
@@ -49,7 +49,7 @@ router.get('/:id', async(req, res, next)=>{
         console.error(err);
         next(err);
     }
-})
+});
 
 router.patch('/:id', async (req, res, next)=>{
     try{
@@ -63,6 +63,19 @@ router.patch('/:id', async (req, res, next)=>{
         console.error(err);
         next(err);
     }
-})
+});
+
+router.patch('/remove/:id', async(req,res,next)=>{
+    try{
+
+        const result = await Comment.destroy({
+            where : {id:req.params.id},
+        });
+        res.json(result);
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
 
 module.exports = router;

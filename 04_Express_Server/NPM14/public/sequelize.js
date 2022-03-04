@@ -33,6 +33,7 @@ async function getCommentOne(id){
 
             // 수정 버튼에 이벤트 리스너 추가
             edit.addEventListener('click', async ()=>{
+                // 게시물 id와 입력받은 내용으로 comment를 수정하시고, 다시 아이디로 검색하여 댓글을 표시해주세요.
                 const newComment = prompt('바꿀 내용을 입력하세요.');
                 if(!newComment){
                     return alert('내용을 반드시 입력하셔야 합니다.');
@@ -52,6 +53,16 @@ async function getCommentOne(id){
             // 삭제버튼
             const remove = document.createElement('button');
             remove.textContent='삭제';
+
+            // 삭제 버튼에 이벤트 리스너 추가
+            remove.addEventListener('click', async ()=>{
+                try{
+                    await axios.patch(`/comments/remove/${comment.id}`);
+                    getCommentOne(id);
+                }catch(error){
+                    console.error(error);
+                }
+            });
 
             td = document.createElement('td');  
             td.appendChild(remove);
@@ -167,6 +178,16 @@ async function getComment(){
 
             const remove = document.createElement('button');
             remove.textContent='삭제';
+
+            // 삭제 버튼에 이벤트 리스너 추가
+            remove.addEventListener('click', async ()=>{
+                try{
+                    await axios.patch(`/comments/remove/${comment.id}`);
+                    getComment();
+                }catch(error){
+                    console.error(error);
+                }
+            });
 
             td = document.createElement('td');  
             td.appendChild(remove);
