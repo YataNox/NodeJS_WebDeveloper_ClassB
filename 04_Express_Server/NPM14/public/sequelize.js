@@ -31,6 +31,20 @@ async function getCommentOne(id){
             const edit = document.createElement('button');
             edit.textContent='수정';
 
+            // 수정 버튼에 이벤트 리스너 추가
+            edit.addEventListener('click', async ()=>{
+                const newComment = prompt('바꿀 내용을 입력하세요.');
+                if(!newComment){
+                    return alert('내용을 반드시 입력하셔야 합니다.');
+                }
+                try{
+                    await axios.patch(`/comments/${comment.id}`, {comment:newComment});
+                    getComment();
+                }catch(error){
+                    console.error(error);
+                }
+            });
+
             td = document.createElement('td');  
             td.appendChild(edit);
             row.appendChild(td); 
@@ -134,7 +148,7 @@ async function getComment(){
             edit.textContent='수정';
 
             // 수정 버튼에 이벤트 리스너 추가
-            edit.addEventListener('click', ()=>{
+            edit.addEventListener('click', async ()=>{
                 const newComment = prompt('바꿀 내용을 입력하세요.');
                 if(!newComment){
                     return alert('내용을 반드시 입력하셔야 합니다.');

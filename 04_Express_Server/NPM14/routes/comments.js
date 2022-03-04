@@ -51,4 +51,18 @@ router.get('/:id', async(req, res, next)=>{
     }
 })
 
+router.patch('/:id', async (req, res, next)=>{
+    try{
+        const result = await Comment.update({
+            comment : req.body.comment, // 전달된 comment로 테이블내의 comment를 수정
+        },{
+            where : {id : req.params.id}, // 전달된 id(댓글번호)만..
+        });
+        res.json(result);
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+})
+
 module.exports = router;
