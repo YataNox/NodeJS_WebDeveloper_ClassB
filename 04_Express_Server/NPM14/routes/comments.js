@@ -9,7 +9,7 @@ router.post('/', async (req, res, next)=>{
     // await 모델명(User).create({필드명 : 전달인수, 필드명 : 전달인수....});
     try{
         const comment = await Comment.create({
-            commenter:req.body.id,
+            commenter:req.body.userid,
             comment:req.body.comment,
         });
         res.json(comment);
@@ -31,6 +31,23 @@ router.get('/', async(req, res, next)=>{
     }catch(err){
         console.log(err);
         next(err); // 에러 루틴이 있는 라우터로 이동
+    }
+})
+
+// :id -> 와일드 카드 문자로 전송되는 req.의 url 중 :id 위치에 전송되는 단어를 id 변수에 넣고 진행되는 url입니다.
+// 정확한 구분을 위해서 '/' 라우터보다 위쪽에 위치하면 안됩니다.
+router.get('/:id', async(req, res, next)=>{
+    try{
+        const comments = await Comment.findAll({
+            include : {
+                model:User,
+                where: {id: req.params.id}, // 조건 검색
+            },
+        });
+        res.json(comments);
+    }catch(err){
+        console.error(err);
+        next(err);
     }
 })
 
