@@ -101,7 +101,7 @@ async function getUser(){
 }
 
 
-async function getComment(id){
+async function getComment(){
     // 모든 user를 조회해서 comment-list 테이블에 표시합니다.
     try{
         const res = await axios.get('/comments');
@@ -132,6 +132,20 @@ async function getComment(id){
 
             const edit = document.createElement('button');
             edit.textContent='수정';
+
+            // 수정 버튼에 이벤트 리스너 추가
+            edit.addEventListener('click', ()=>{
+                const newComment = prompt('바꿀 내용을 입력하세요.');
+                if(!newComment){
+                    return alert('내용을 반드시 입력하셔야 합니다.');
+                }
+                try{
+                    await axios.patch(`/comments/${comment.id}`, {comment:newComment});
+                    getComment();
+                }catch(error){
+                    console.error(error);
+                }
+            });
 
             td = document.createElement('td');  
             td.appendChild(edit);

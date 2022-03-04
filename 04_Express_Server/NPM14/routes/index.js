@@ -56,5 +56,39 @@ router.get('/', (req, res)=>{
 //      }
 // });
 
+// 5. Select id, name from users order by age desc;
+// User.findAll({
+//      attribute:['id', 'name'];
+//      order:[['age', 'desc]];
+// });
+// Select id, name from users order by age desc, id asc;
+// User.findAll({
+//      attribute:['id', 'name'];
+//      order:[['age', 'desc], ['id', 'asc]];
+// });
+
+// 6. 수정 update users set comment='바꿀 내용' where id=2;
+// User.update({
+//      comment:'바꿀 내용',
+// },{
+//    where : {id:2},
+// });
+
+// 7. 삭제
+// delete from users where id=2;
+// User.destory({
+//    where : {id:2},
+// });
+
+// 8. users 테이블과 comments 테이블의 조언
+// User.findAll({
+//    include:{
+//        model:comment
+//    },
+// });
+
+// 9. 일반 SQL 사용
+// const {result, metadate} = sequelize.query('select * from users');
+
 
 module.exports = router;
