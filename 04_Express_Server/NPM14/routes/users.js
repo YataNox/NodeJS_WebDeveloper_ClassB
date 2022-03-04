@@ -31,6 +31,6 @@ router.get('/', async(req, res, next)=>{
         console.log(err);
         next(err); // 에러 루틴이 있는 라우터로 이동
     }
-})
+});
 
 module.exports = router;
