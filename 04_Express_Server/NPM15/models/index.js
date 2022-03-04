@@ -12,15 +12,15 @@ const Board = require('./board');
 const Reply = require('./reply');
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.Sequelize = sequelize;
 
 db.Member = Member;
 db.Board = Board;
 db.Reply = Reply;
 
-Member.init(Sequelize);
-Board.init(Sequelize);
-Reply.init(Sequelize);
+Member.init(sequelize);
+Board.init(sequelize);
+Reply.init(sequelize);
 
 Member.associate(db);
 Board.associate(db);
