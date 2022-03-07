@@ -5,4 +5,7 @@ const Reply = require('../models/reply');
 
 const router = express.Router();
 
+router.get('/', (req, res)=>{
+    res.render('main', {});
+});
 module.exports = router;

@@ -27,9 +27,10 @@ module.exports = class Member extends Sequelize.Model{
                 type: Sequelize.STRING(50),
                 allowNull: false,
             },
-            created_at: {
-                type: Sequelize.DATE,
-                defaultValue: Sequelize.NOW,
+            created_at:{
+                type:Sequelize.DATE,
+                allowNull:false,
+                defaultValue:Sequelize.NOW,
             },
         }, {
             sequelize,
