@@ -29,14 +29,13 @@ router.get('/joinform', (req, res)=>{
 
 router.post('/insertMember', async (req, res)=>{
     try{
-        const member = await Member.create({
+        await Member.create({
             userid:req.body.userid,
             pwd:req.body.pwd,
             name:req.body.name,
             phone:req.body.phone,
             email:req.body.email,
         });
-        res.json(member);
     }catch(err){
         console.error(err);
     }
