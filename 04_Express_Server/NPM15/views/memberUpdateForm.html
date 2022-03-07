@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updateForm</title>
+</head>
+<body>
+    <form id="memberUpdate">
+        <fieldset>
+            <legend>회원정보 수정</legend>
+            <div>사용자 아이디 : {{member.userid}} <input type="hidden" id="userid" value="{{member.userid}}"></div>
+            <div>비밀번호 : <input type="password" id="pwd" placeholder="password"></div>
+            <div>이름 : <input type="text" id="name" value="{{member.name}}"></div>
+            <div>전화번호 : <input type="text" id="phone" value="{{member.phone}}"></div>
+            <div>메일 : <input type="text" id="email" value="{{member.email}}"></div>
+            <input type="submit" value="수정완료">
+            <input type="button" value="취소" onclick="location.href='/'"/>
+        </fieldset>
+    </form>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/updatemember.js"></script>
+</body>
+</html>

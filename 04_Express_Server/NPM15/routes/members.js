@@ -7,6 +7,7 @@ const express = require('express');
 const Member = require('../models/member');
 const Board = require('../models/board');
 const Reply = require('../models/reply');
+const { render } = require('nunjucks');
 const router = express.Router();
 
 router.post('/login', async (req, res)=>{
@@ -41,5 +42,48 @@ router.post('/insertMember', async (req, res)=>{
     }
 }); 
 
+router.get('/updateForm/:userid', async (req, res, next)=>{
+    try{
+        // userid로 검색해서 검색결과를 member라는 이름으로 같이 memberUpdateForm.html로 이동 전송합니다.
+        const member = await Member.findOne({
+            where:{userid : req.params.userid},
+        });
+        res.render('memberUpdateForm', {member : member});
+    }catch(err){
+        console.error(err);
+    }
+});
+
+router.post('/update', async (req, res,  next)=>{
+    // userid로 검색해서 검색결과를 member라는 이름으로 같이 memberUpdateForm.html로 이동합니다.
+    try{
+        // 회원정보 수정
+        const result = await Member.update({
+           pwd:req.body.pwd,
+           name:req.body.name,
+           phone:req.body.phone,
+           email:req.body.email,
+        },{
+           where : {userid:req.body.userid},
+        });
+        // 다시 현재 회원 검색
+        const member = await Member.findOne({
+            where : {userid:req.body.userid},
+        });
+        // 세션값 갱신
+        req.session.loginUser = member;
+        res.json(member);
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
+router.get('/logout', (req, res)=>{
+    req.session.destroy(function(){
+        req.session;
+    });
+    res.redirect('/');
+});
 
 module.exports = router;
