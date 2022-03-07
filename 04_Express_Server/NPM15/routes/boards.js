@@ -21,4 +21,34 @@ router.get('/boardList', async (req, res)=>{
         next(err);
     }
 });
+
+router.get('/boardView/:id', async (req, res, next)=>{
+    try{
+        // 게시물을 검색
+        // 검색한 게시물의 조회수를 추출해서 +1 연산
+        // 연산한 겨로가를 검색한 게시물에 update 합니다.
+        // 다시 게시물을 검색
+        // 검색결과를 render에 포함시켜 줍니다.
+        const boardView = await Board.findOne({
+            where : {id : req.params.id},
+        });
+
+        await Board.update({
+            readcount : (boardView.readcount*1) + 1,
+        },{
+            where : {id : req.params.id},
+        });
+        
+        const boardView2 = await Board.findOne({
+            where : {id : req.params.id},
+        });
+
+        const luser = req.session.loginUser;
+        console.log(luser.userid);
+        res.render('boardView', {boardView2, luser});
+    }catch(err){
+        console.error(err);
+    }
+});
+
 module.exports = router;

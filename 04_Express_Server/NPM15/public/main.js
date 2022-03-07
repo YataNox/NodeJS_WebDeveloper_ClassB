@@ -15,6 +15,10 @@ async function getBoard_list(){
         Board_list.map(function(board){
             const row = document.createElement('tr');   // tr 태그 생성
 
+            row.addEventListener('click', ()=>{
+                location.href='/boards/boardView/' + board.id;
+            });
+
             let td = document.createElement('td');  // td 태그 생성
             td.textContent = board.id;   // 생성된 태그에 user의 id 삽입
             td.id = 'boardnum';
