@@ -21,6 +21,7 @@ document.getElementById('login-form').addEventListener('submit', async (e)=>{
         }else if(mem.pwd != pwd){
             m.innerHTML = '비밀번호를 확인하세요.';
         }else if(mem.pwd == pwd){
+            // await axios.post('members/savesession', {mem});
             location.href='/boards';
         }else{
             m.innerHTML = '알 수 없는 이유로 로그인이 안돼요';

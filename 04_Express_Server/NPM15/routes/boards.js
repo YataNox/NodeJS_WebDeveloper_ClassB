@@ -6,6 +6,7 @@ const Reply = require('../models/reply');
 const router = express.Router();
 
 router.get('/', (req, res)=>{
-    res.render('main', {});
+    const loginUser = req.session.loginUser;
+    res.render('main', {luser:loginUser});
 });
 module.exports = router;

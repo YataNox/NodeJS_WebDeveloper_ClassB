@@ -14,6 +14,9 @@ router.post('/login', async (req, res)=>{
         const luser = await Member.findOne({
             where:{userid : req.body.userid },
         });
+        if((luser != null) && (luser.pwd == req.body.pwd)){
+            req.session.loginUser = luser;
+        }
         res.json(luser);
     }catch(err){
         console.error(err);
