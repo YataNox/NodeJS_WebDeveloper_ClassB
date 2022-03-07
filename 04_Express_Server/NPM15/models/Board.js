@@ -22,6 +22,14 @@ module.exports = class Board extends Sequelize.Model{
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.NOW,
             },
+            filename : {
+                type : Sequelize.STRING(45),
+                allowNull : true,
+            },
+            realfilename : {
+                type : Sequelize.STRING(45),
+                allowNull : true,
+            },
         }, {
             sequelize,
             timestamps: false,

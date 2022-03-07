@@ -16,6 +16,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",
+    "nunjucks-date-filter": "^0.1.1",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1"
   },
