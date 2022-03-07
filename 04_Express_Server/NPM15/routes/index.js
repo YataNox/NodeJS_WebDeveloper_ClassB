@@ -5,9 +5,9 @@ const Reply = require('../models/reply');
 
 const router = express.Router();
 
-router.get('/', (req, res)=>{
+router.get('/', (req, res, next)=>{
     try{
-        res.render('memberinsert', {});
+        res.render('login', {});
     }catch(err){
         console.error(err);
         next(err);
