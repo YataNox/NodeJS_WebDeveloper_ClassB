@@ -45,7 +45,6 @@ router.get('/boardView/:id', async (req, res, next)=>{
         });
 
         const luser = req.session.loginUser;
-        console.log(luser.userid);
         res.render('boardView', {boardView2, luser});
     }catch(err){
         console.error(err);
@@ -74,4 +73,49 @@ router.post('/insertBoard', async (req, res, next)=>{
         next(err);
     }
 });
+
+router.get('/UpdateForm/:id', async (req, res, next)=>{
+    // 전달된 아이디로 게시물을 조회한 후 updateForm.html로 렌더링. 세션에 있는 유저 아이디랑, 조회한 게시물과 같이 이동합니다.
+    try{
+        const board = await Board.findOne({
+            where : {id : req.params.id},
+        });
+        res.render('updateForm', {board : board});
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
+router.post('/update', async(req, res, next)=>{
+    try{
+     // 전달된 값으로 게시물을 수정합니다
+        await Board.update({
+            subject:req.body.subject,
+            content:req.body.text,
+        },{
+            where : {id : req.body.id },
+        })
+        // 게시물 번호로 해당 게시물을 보던 페이지로 되돌아 갑니다. 이때 조회수는 늘어나지 않습니다.
+        res.redirect('/boards/boardView2/' + req.body.id);
+
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
+router.get('/boardView2/:id', async (req, res)=>{
+    try{
+        const boardView2 = await Board.findOne({
+            where : {id:req.params.id},
+        });
+        const luser = req.session.loginUser;
+        res.render('boardView', {boardView2, luser});
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
 module.exports = router;
