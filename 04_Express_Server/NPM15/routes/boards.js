@@ -61,4 +61,17 @@ router.get('/writeForm', (req, res)=>{
     }
 });
 
+router.post('/insertBoard', async (req, res, next)=>{
+    try{
+        const board = await Board.create({
+            subject : req.body.subject,
+            content : req.body.text,
+            writer : req.body.writer,
+        });
+        res.json(board);
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
 module.exports = router;
