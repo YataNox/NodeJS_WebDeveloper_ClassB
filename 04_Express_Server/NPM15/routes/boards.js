@@ -118,4 +118,18 @@ router.get('/boardView2/:id', async (req, res)=>{
     }
 });
 
+router.get('/deleteBoard/:id', async (req, res)=>{
+    // 해당 아이디로 게시물을 삭제한 후 boards로 이동해주세요.
+    try{
+        await Board.destroy({
+            where : {id:req.params.id},
+        });
+        const luser = req.session.loginUser;
+        res.redirect('/boards');
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
 module.exports = router;
