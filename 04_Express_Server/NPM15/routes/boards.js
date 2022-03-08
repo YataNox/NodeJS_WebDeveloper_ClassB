@@ -2,6 +2,7 @@ const express = require('express');
 const Member = require('../models/member');
 const Board = require('../models/board');
 const Reply = require('../models/reply');
+const { renderString } = require('nunjucks');
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ router.get('/boardView/:id', async (req, res, next)=>{
         });
 
         await Board.update({
-            readcount : (boardView.readcount*1) + 1,
+            readCount : (boardView.readCount*1) + 1,
         },{
             where : {id : req.params.id},
         });
@@ -46,6 +47,15 @@ router.get('/boardView/:id', async (req, res, next)=>{
         const luser = req.session.loginUser;
         console.log(luser.userid);
         res.render('boardView', {boardView2, luser});
+    }catch(err){
+        console.error(err);
+    }
+});
+
+router.get('/writeForm', (req, res)=>{
+    try{
+        const luser = req.session.loginUser;
+        res.render('writeForm', {luser});
     }catch(err){
         console.error(err);
     }
