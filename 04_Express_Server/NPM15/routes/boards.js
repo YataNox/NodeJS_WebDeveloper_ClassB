@@ -45,7 +45,8 @@ router.get('/boardView/:id', async (req, res, next)=>{
         });
 
         const luser = req.session.loginUser;
-        res.render('boardView', {boardView2, luser});
+        const dt = new Date();
+        res.render('boardView', {boardView2, luser, dt});
     }catch(err){
         console.error(err);
     }
@@ -111,7 +112,8 @@ router.get('/boardView2/:id', async (req, res)=>{
             where : {id:req.params.id},
         });
         const luser = req.session.loginUser;
-        res.render('boardView', {boardView2, luser});
+        const dt = new Date();
+        res.render('boardView', {boardView2, luser, dt});
     }catch(err){
         console.error(err);
         next(err);

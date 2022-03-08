@@ -39,7 +39,37 @@
                     <input type="button" value="돌아가기" onclick="location.href='/boards'">
                 </td>
             </tr>
-        </table>
+        </table><br><br>
+        <form id="reply-form">
+            <table id="reply-list" align="center">
+                <thead>
+                    <tr>
+                        <td width="120" align="center">작성일시</td>
+                        <td width="70" align="center">작성자</td>
+                        <td width="440" align="center">내용</td>
+                        <td width="700" align="center"></td>
+                    </tr>
+                    <tr>
+                        <td align="center">{{dt}}</td>
+                        <td align="center">{{luser.userid}}</td>
+                        <input type="hidden" id="writer" value="{{boardView2.writer}}">
+                        <input type="hidden" id="boardnum" value="{{boardView2.id}}">
+                        <td>&nbsp;<input type="text" size="55" id="reply"></td>
+                        <td align="center"><input type="submit" value="작성"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="/reply.js"></script>
     </div>
+    <script>
+        getReplys('{{boardView2.id}}');
+    </script>
 </body>
 </html>
