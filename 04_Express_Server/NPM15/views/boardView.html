@@ -52,7 +52,7 @@
                     <tr>
                         <td align="center">{{dt}}</td>
                         <td align="center">{{luser.userid}}</td>
-                        <input type="hidden" id="writer" value="{{boardView2.writer}}">
+                        <input type="hidden" id="writer" value="{{luser.userid}}">
                         <input type="hidden" id="boardnum" value="{{boardView2.id}}">
                         <td>&nbsp;<input type="text" size="55" id="reply"></td>
                         <td align="center"><input type="submit" value="작성"></td>
@@ -69,7 +69,7 @@
         <script src="/reply.js"></script>
     </div>
     <script>
-        getReplys('{{boardView2.id}}');
+        getReplys('{{boardView2.id}}', '{{luser.userid}}');
     </script>
 </body>
 </html>

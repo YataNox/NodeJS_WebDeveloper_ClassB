@@ -1,7 +1,7 @@
 // 작성일시란에 현재 시간 나오게 코딩해주세요.
 // getReplys 함수를 통해 화면에 댓글들이 표시되게 해주세요.
 
-async function getReplys(boardnum){
+async function getReplys(boardnum, replyWriter){
     try{
         const res = await axios.get(`/replys/replyList/${boardnum}`);
         const replys = res.data;
@@ -29,21 +29,28 @@ async function getReplys(boardnum){
             td.textContent = reply.content;
             row.appendChild(td); 
 
-            const remove = document.createElement('button');
-            remove.textContent='삭제';
+            const remove = document.createElement('input');
+            remove.setAttribute('type', 'button');
+            remove.value='삭제';
 
             // 삭제 버튼에 이벤트 리스너 추가
             remove.addEventListener('click', async ()=>{
                 try{
-                    await axios.delete(`/comments/${comment.id}`);
-                    getComment();
+                    await axios.delete(`/replys/deleteReply/${reply.id}`);
+                    getReplys(reply.boardnum, replyWriter);
                 }catch(error){
                     console.error(error);
                 }
             });
 
-            td = document.createElement('td');  
-            td.appendChild(remove);
+            td = document.createElement('td');
+            td.id = 'remove';
+            if(reply.writer == replyWriter){
+                td.appendChild(remove);
+            }else{
+                td.innerHTML = '&nbsp;';
+            } 
+            
             row.appendChild(td); 
             
             tbody.appendChild(row); // 완성된 tr을 tbody에 추가
@@ -63,7 +70,7 @@ document.getElementById('reply-form').addEventListener('submit', async (e)=>{
 
     try{
         await axios.post('/replys/addReply', {writer, boardnum, reply});
-        getReplys(boardnum);
+        getReplys(boardnum, writer);
     }catch(err){
         console.error(err);
     }

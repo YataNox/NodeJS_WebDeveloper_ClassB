@@ -25,4 +25,14 @@ router.get('/replyList/:id', async (req, res, next)=>{
     res.json(replys);
 });
 
+router.delete('/deleteReply/:id', async (req, res, next)=>{
+    const rep = await Reply.findOne({
+        where : {id : req.params.id},
+    });
+
+    await Reply.destroy({
+        where : {id : req.params.id},
+    });
+    res.end();
+});
 module.exports = router;
