@@ -12,7 +12,7 @@ async function getBoard_list(){
         tbody.innerHTML = '';
 
         // 조회한 게시물의 갯수만큼 반복해서 테이블을 채웁니다.
-        Board_list.map(function(board){
+        Board_list.map(async function(board){
             const row = document.createElement('tr');   // tr 태그 생성
 
             row.addEventListener('click', ()=>{
@@ -24,8 +24,20 @@ async function getBoard_list(){
             td.id = 'boardnum';
             row.appendChild(td);    //tr 안에 td 삽입
 
-            td = document.createElement('td');  
-            td.textContent = board.subject;
+            td = document.createElement('td');
+            // 현재 게시물의 댓글 갯수를 조회해서 제목 옆에 추가로 표시합니다. 갯수:조회된 객체.length
+            try{
+                const result = await axios.get(`/boards/getReplyCount/${board.id}`);
+                const data = result.data;
+                let cnt = data.cnt;
+                if(cnt != 0){
+                    td.innerHTML = board.subject + '<span style="color:red;">[' + cnt + ']</span>';
+                }else{
+                    td.innerHTML = board.subject;
+                }
+            }catch(err){
+                console.error(err);
+            }
             td.id = 'subject';
             row.appendChild(td); 
             

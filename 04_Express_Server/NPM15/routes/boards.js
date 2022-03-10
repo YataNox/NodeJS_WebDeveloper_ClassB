@@ -28,6 +28,14 @@ router.get('/', (req, res)=>{
     res.render('main', {luser:loginUser});
 });
 
+router.get('/getReplyCount/:id', async (req, res, next)=>{
+    const cnt = await Reply.findAll({
+        where : {boardnum : req.params.id},
+    });
+    console.log(cnt.length);
+    res.json({cnt : cnt.length});
+}); 
+
 router.get('/boardList', async (req, res)=>{
     try{
         const boards = await Board.findAll({
