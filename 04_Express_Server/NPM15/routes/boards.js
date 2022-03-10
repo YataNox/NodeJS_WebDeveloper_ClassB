@@ -94,7 +94,7 @@ router.post('/insertBoard', upload.single('image'), async (req, res, next)=>{
     }
 });
 
-router.get('/UpdateForm/:id', async (req, res, next)=>{
+router.get('/UpdateForm/:id', upload.single('image'), async (req, res, next)=>{
     // 전달된 아이디로 게시물을 조회한 후 updateForm.html로 렌더링. 세션에 있는 유저 아이디랑, 조회한 게시물과 같이 이동합니다.
     try{
         const board = await Board.findOne({
@@ -107,15 +107,25 @@ router.get('/UpdateForm/:id', async (req, res, next)=>{
     }
 });
 
-router.post('/update', async(req, res, next)=>{
+router.post('/update', upload.single('image'), async(req, res, next)=>{
     try{
-     // 전달된 값으로 게시물을 수정합니다
-        await Board.update({
-            subject:req.body.subject,
-            content:req.body.text,
-        },{
-            where : {id : req.body.id },
-        })
+        if(req.file != undefined){
+            await Board.update({
+                subject : req.body.subject,
+                content : req.body.text,
+                filename : req.file.originalname,
+                realfilename : req.file.filename,
+            },{
+                where : {id : req.body.id},
+            });
+        }else{
+            await Board.update({
+                subject:req.body.subject,
+                content:req.body.text,
+            },{
+                where : {id : req.body.id },
+            })
+        }
         // 게시물 번호로 해당 게시물을 보던 페이지로 되돌아 갑니다. 이때 조회수는 늘어나지 않습니다.
         res.redirect('/boards/boardView2/' + req.body.id);
 
