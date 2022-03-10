@@ -5,6 +5,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const dateFilter = require('nunjucks-date-filter');
+const multer = require('multer');
+const fs = require('fs');
 
 const app = express();
 app.set('port', process.env.PORT || 3000);
@@ -45,6 +47,27 @@ sequelize.sync({force:false}).then(()=>{
 }).catch(()=>{
     console.error(err);
 });
+
+try{
+    fs.readdirSync('public/uploads');
+}catch(err){
+    console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+    fs.mkdirSync('public/uploads'); // 현재 폴더의 최상위 폴더 아래에 생성
+}
+
+const upload = multer(
+    { storage:multer.diskStorage({
+        destination(req, file, done){
+            done(null, 'public/uploads/'); 
+        }, 
+            filename(req, file, done){
+            const ext = path.extname(file.originalname);
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+            },
+        }
+    ), 
+    limits:{ fileSize: 5*1024*1024},}
+); 
 
 // 에러처리 미들웨어
 app.use((req, res, next)=>{
