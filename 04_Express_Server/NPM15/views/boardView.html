@@ -32,8 +32,8 @@
                 <th width="150" align="center">내용</th>
                 <td width="150" align="left" colspan="3" width="300" height="300"><pre>{{boardView2.content}}</pre></td>
                 <td width="150">
-                    {% if board.filename %}
-                        <img src="/uploads/{{board.realfilename}}" width="150">
+                    {% if boardView2.filename %}
+                        <img src="/uploads/{{boardView2.realfilename}}" width="150">
                     {% endif %}
                 </td>
             </tr>
