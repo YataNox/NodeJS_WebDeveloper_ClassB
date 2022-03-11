@@ -30,8 +30,9 @@ app.use(session({
 }));
 
 
+app.use(express.static(path.join(__dirname, 'public')));
+const {sequelize} = require('./models');
 
-const { sequelize } = require('./models');
 sequelize.sync({force:false})
 .then(()=>{
     console.log('데이터베이스 연결 성공');
@@ -42,9 +43,13 @@ sequelize.sync({force:false})
 
 
 app.get('/', (req, res)=>{
-    // const user = {id : 'aaa', nick : 'bbb'};
-    res.render('postForm', {title : 'NodeGram', /*user, followerCount:1, followingCount:2,*/});
+     const user = {id : 1, nick : 'aaa'};
+    res.render('postForm', {title : 'NodeGram', user, followerCount:1, followingCount:2,});
 });
+
+app.get('/saveimg', (req, res)=>{
+    
+})
 
 
 app.use((req, res, next) => {

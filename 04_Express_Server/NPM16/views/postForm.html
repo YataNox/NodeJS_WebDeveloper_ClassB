@@ -18,4 +18,26 @@
             </div>
         </form>
     </div>
+    <table id="post-list">
+
+    </table>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        document.getElementById('post-form').addEventListener('change', async (e)=>{
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('image', e.target.img.files[0]);
+
+            try{
+                const result = await axiox.get('/saveimg', formData);
+                const data = result.data;
+                const img = data.image;
+                document.getElementById('img-preview').src = `/${img}`;
+            }catch(err){
+                console.error(err);
+            }
+        });
+    </script>
 {% endblock %}

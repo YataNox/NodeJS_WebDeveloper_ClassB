@@ -13,7 +13,7 @@
         <div class="profile-wrap">
             <div class="profile">
                 {% if user %}
-                    <div class="user-name">{{'안녕하세요' + user.nick + '님'}}</div>
+                    <div class="user-name">{{'안녕하세요 ' + user.nick + '님'}}</div>
                     <div class="half">
                         <div>팔로워</div>
                         <div class="count following-count">{{followerCount}}</div>
@@ -46,5 +46,7 @@
         {% endblock %}
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>
