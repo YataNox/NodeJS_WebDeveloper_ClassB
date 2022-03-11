@@ -41,6 +41,11 @@ sequelize.sync({force:false})
 });
 
 
+app.get('/', (req, res)=>{
+    // const user = {id : 'aaa', nick : 'bbb'};
+    res.render('postForm', {title : 'NodeGram', /*user, followerCount:1, followingCount:2,*/});
+});
+
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
