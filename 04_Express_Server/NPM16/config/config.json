@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "adminuser",
-    "database": "database_development",
+    "database": "nodegram",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
