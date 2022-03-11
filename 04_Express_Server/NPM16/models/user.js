@@ -44,6 +44,25 @@ module.exports = class User extends Sequelize.Model{
 
         // 팔로워와 팔로잉 관계 테이블과 User 테이블 관계를 설정
         // ...
-
+        db.User.belongsToMany(db.User, {
+            foreignKey : 'followingId',
+            as : 'Followers', // 팔로워 들을 검색해야 나를 팔로잉하는 사람들이 검색이 되기때문에...
+            through : 'Follow',
+        });
+        db.User.belongsToMany(db.User, {
+            foreignKey : 'followingId',
+            as : 'Followings', // 팔로잉들을 검색해서 나가 팔로우하는 사람들을 검색하기 위해
+            through : 'Follow',
+        });
     }  // 테이블간의 관계설정(1:N 또는 1:1 또는 N:N)
 };
+
+// 테이블에 필드는 Followers, Followings가 있는데
+// 유저1이 유저2를 팔로잉한다.
+// 유저1(Followers), 유저2(Followings)로 레코드 생성
+// 반대로 유저2가 유저1을 팔로잉한다.
+// 유저2(Followers), 유저1(Followings)로 레코드 생성
+// 유저3(Followers), 유저1(Followings)
+// 유저4(Followers), 유저1(Followings)
+// 이 테이블에서 유저1의 팔로워들은 유저2, 유저3, 유저4가 됩니다.
+// 유저2가 팔로잉하는 유저는 유저1과 유저4입니다.
