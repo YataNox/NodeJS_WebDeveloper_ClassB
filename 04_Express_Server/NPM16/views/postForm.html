@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div>
+        <form action="" id="post-form" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <textarea name="content" id="post" maxlength="140"></textarea>
+            </div>
+            <!-- 이미지 미리보기 -->
+            <div class="img-preview">
+                <img src="" id="img-preview" style="display: none;" width="250" alt="미리보기">
+                <input type="hidden" name="url" id="img-url">
+            </div>
+            <div>
+                <label for="img" id="img-label">사진 업로드</label>
+                <input type="file" id="img">
+                <button id="post-btn" type="submit" class="btn">전송</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
