@@ -106,5 +106,15 @@ textarea{
     color: red; font-weight: bold;
 }
 #join-form{
-    padding: 10px; text-align: center;
+    padding: 10px; text-align: center; background-color: lightcoral; width: 96%;
+}
+
+#hashtag-form{
+    text-align: right;
+}
+.twits{
+    border: 1px solid silver; border-radius: 4px;
+    padding: 10px; position: relative;
+    margin: 10px 0px;
+    background-color: lightcoral; width: 96%;
 }

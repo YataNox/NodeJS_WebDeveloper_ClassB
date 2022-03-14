@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="timeline">
+    {% if user %}
+    <div>
+        <form action="/posts" id="post-form" method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <textarea name="content" id="twit" maxlength="140"></textarea>
+            </div>
+            <div class="img-preview">
+                <img src="" alt="미리보기" id="img-preview" style="display:none;" width="250">
+                <input type="hidden" id="img-url" name="url">
+            </div>
+            <div>
+                <label id="img-label" for="img">사진 업로드</label>
+                <input id="img" type="file">
+                <button id="post-btn" type="submit" class="btn">포스팅</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    <div class="twits">
+        <form action="/hashtag" id="hashtag-form">
+            <input type="text" name="hashtage" placeholder="태그 검색">
+            <button class="btn">검색</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

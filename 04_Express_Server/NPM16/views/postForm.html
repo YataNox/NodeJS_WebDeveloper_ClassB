@@ -2,42 +2,85 @@
 
 {% block content %}
     <div>
-        <form action="" id="post-form" method="post" enctype="multipart/form-data">
+        <form id="post-form" method="post" enctype="multipart/form-data">
             <div class="input-group">
-                <textarea name="content" id="post" maxlength="140"></textarea>
+                <textarea id="post" name="content" maxlength="140"></textarea>
             </div>
             <!-- 이미지 미리보기 -->
             <div class="img-preview">
-                <img src="" id="img-preview" style="display: none;" width="250" alt="미리보기">
-                <input type="hidden" name="url" id="img-url">
+                <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
+                <input id="img-url" type="hidden" name="url">
             </div>
             <div>
-                <label for="img" id="img-label">사진 업로드</label>
-                <input type="file" id="img">
+                <label id="img-label" for="img">사진 업로드</label>
+                <input id="img" type="file">
                 <button id="post-btn" type="submit" class="btn">전송</button>
             </div>
         </form>
     </div>
-    <table id="post-list">
-
-    </table>
+    <table id="post-list"><tbody></tbody></table>
 {% endblock %}
 
 {% block script %}
     <script type="text/javascript">
-        document.getElementById('post-form').addEventListener('change', async (e)=>{
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('image', e.target.img.files[0]);
+        getPost();
 
+        document.getElementById('post-form').addEventListener('submit', async (e)=>{
+            e.preventDefault();
+
+            const content = e.target.content.value;
+
+            if(!content){return alert('내용을 입력하세요.');}
+
+            const formData = new FormData();
+            
+            formData.append('img', e.target.img.files[0]);
+            formData.append('content', content);
+            
             try{
-                const result = await axiox.get('/saveimg', formData);
-                const data = result.data;
-                const img = data.image;
-                document.getElementById('img-preview').src = `/${img}`;
+                await axios.post('/posts/posting', formData);
+                /* location.href='/'; */
             }catch(err){
                 console.error(err);
             }
+            getPost();
         });
+
+        async function getPost(){
+            const res = await axios.get('/posts');
+            const posts = res.data;
+            const tbody = document.querySelector('#post-list tbody');
+            tbody.innerHTML = "";
+
+            posts.map(function(post){
+                let row = document.createElement('tr');
+                let td = document.createElement('td');
+                td.textContent = post.User.nick;
+                row.appendChild(td);
+                tbody.appendChild(row);
+
+                row = document.createElement('tr');
+                td = document.createElement('td');
+                let img = document.createElement('img');
+                img.setAttribute('src', `img/${post.img}`);
+                img.style.width='350px';
+                td.appendChild(img);
+                row.appendChild(td);
+                tbody.appendChild(row);
+
+                row = document.createElement('tr');
+                td = document.createElement('td');
+                td.textContent = post.content;
+                row.appendChild(td);
+                tbody.appendChild(row);
+
+                row = document.createElement('tr');
+                td = document.createElement('td');
+                let hr = document.createElement('hr');
+                td.appendChild(hr);
+                row.appendChild(td);
+                tbody.appendChild(row);
+            });
+        }
     </script>
 {% endblock %}

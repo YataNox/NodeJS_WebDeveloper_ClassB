@@ -2,7 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const morgan = require('morgan');
-
 const path = require('path');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
@@ -10,6 +9,12 @@ const dotenv = require('dotenv');
 dotenv.config();    // dotenv 설정은 가장 위에 쓰는것이 좋습니다.
 
 const app = express();
+
+const postRouter = require('./routes/posts');
+const pageRouter = require('./routes/page');
+app.use('/posts', postRouter);
+app.use('/', pageRouter);
+
 app.set('port', process.env.PORT || 8001);
 app.set('view engine', 'html');
 nunjucks.configure('views', {   express: app,   watch: true,   });
@@ -31,6 +36,8 @@ app.use(session({
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/img', express.static(path.join(__dirname, 'uploads')));
+// uploads 폴더를 정적 폴더로 쓰되 접근폴더명은 img로 설정합니다.
 const {sequelize} = require('./models');
 
 sequelize.sync({force:false})
@@ -41,15 +48,11 @@ sequelize.sync({force:false})
     console.error(err);
 });
 
-
-app.get('/', (req, res)=>{
+/* app.get('/', (req, res)=>{
      const user = {id : 1, nick : 'aaa'};
     res.render('postForm', {title : 'NodeGram', user, followerCount:1, followingCount:2,});
-});
+}); */
 
-app.get('/saveimg', (req, res)=>{
-    
-})
 
 
 app.use((req, res, next) => {
