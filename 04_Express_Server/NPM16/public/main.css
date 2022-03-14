@@ -14,7 +14,7 @@ html, body{
     font-size: 12px;
 }
 
-input[type='text'], input[type='password'], textarea{
+input[type='text'], input[type='email'],input[type='nick'], input[type='password'], textarea{
     border-radius: 4px; height: 37px; padding: 10px;
 }
 

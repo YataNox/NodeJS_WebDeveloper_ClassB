@@ -12,6 +12,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
@@ -22,6 +23,9 @@
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",
     "nunjucks-date-filter": "^0.1.1",
+    "passport": "^0.5.2",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1"
   }
