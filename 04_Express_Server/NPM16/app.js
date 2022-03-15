@@ -21,6 +21,7 @@ passportConfig(); // 패스포트 설정
 const pageRouter = require('./routes/page');
 const postRouter = require('./routes/posts');
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 
 
 app.set('port', process.env.PORT || 8001);
@@ -59,6 +60,7 @@ sequelize.sync({force:false}) // 테이블이 있으면 강제로 만들지 않�
 app.use('/', pageRouter);
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 
 

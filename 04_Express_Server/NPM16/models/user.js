@@ -50,7 +50,7 @@ module.exports = class User extends Sequelize.Model{
             through : 'Follow',
         });
         db.User.belongsToMany(db.User, {
-            foreignKey : 'followingId',
+            foreignKey : 'followerId',
             as : 'Followings', // 팔로잉들을 검색해서 나가 팔로우하는 사람들을 검색하기 위해
             through : 'Follow',
         });
