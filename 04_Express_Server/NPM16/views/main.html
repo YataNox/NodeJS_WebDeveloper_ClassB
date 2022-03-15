@@ -37,12 +37,15 @@
             {%if not followerIdList.includes(post.User.id) and post.User.id !== user.id%}
             <button class="twit-follow">팔로우하기</button><br><br>
             {%endif%}
-            <!-- content -->
-            <div class="twit-content">{{post.content}}</div>
             <!-- 이미지 -->
             {% if post.img %}
+            <!-- 현재 게시물의 이미지가 있다면 이미지 태그 표시 -->
             <div class="twit-img"><img src="{{post.img}}"></div>
             {% endif%}
+            <!-- content -->
+            <div class="twit-content" style="font-weight: bold; font-family: Verdana;">
+                <pre>{{post.content}}</pre>
+            </div>
         </div><br>
         {% endfor%}
     </div>
