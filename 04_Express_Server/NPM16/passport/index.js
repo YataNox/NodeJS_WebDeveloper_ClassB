@@ -26,6 +26,7 @@ module.exports = ()=>{
             }],
         })
         .then(user => done(null, user)) // 세션에 저장된 아이디와 쿠키로  user 를 복구 req.user로 사용  
+        // req.isAuthenticated() 함수 결과 : 로그인 되어있는 동안 트루
         .catch(err => done(err));
     });
 
