@@ -31,7 +31,9 @@
             <!-- 아이디 --> <!-- 닉네임 -->
             <input type="hidden" value="{{post.id}}" class="twit-id">
             <input type="hidden" value="{{post.UserId}}" class="twit-user-id">
-            <div class="twit-author">{{post.id}} &nbsp;-&nbsp; {{post.User.nick}}</div>
+            <div class="twit-author">{{post.id}} &nbsp;-&nbsp; {{post.User.nick}}
+            </div>
+            <button class="twit-follow">팔로우하기</button><br><br>
             <!-- content -->
             <div class="twit-content">{{post.content}}</div>
             <!-- 이미지 -->
@@ -61,5 +63,27 @@
             });
         });
     }
+
+    // class가 twit-follow인 요소를 모두 선택후 -> 그 태그들을 하나씩 tag에 전달하며 익명함수 실행
+    document.querySelectorAll('.twit-follow').forEach(function(tag){
+        // 현재 tag(class가 twit-follow인 요소)에 클릭 이벤트 함수 설정
+        tag.addEventListener('click', function(){
+            const myid = document.querySelector('#my-id'); // 로그인한 사람
+            if(myid){ // 로그인한 상태로 myid가 존재할 때만
+                const userId = tag.parentNode.querySelector('.twit-user-id').value; // 게시물의 작성자
+                if(userId !== myid.value){ // 로그인 유저와 작성자가 같지 않다면 실행
+                    const answer = confirm('팔로우하시겠습니까?');
+                    if(answer){
+                        // 내가(로그인한 사람) 현재 게시물의 작성자를 팔로우
+                        axios.post(`/user/${userId}/follow`).then(()=>{
+                            location.reload();
+                        }).catch((err)=>{
+                            console.error(err);
+                        });
+                    }
+                }
+            }
+        });
+    });
 </script>
 {% endblock %}
