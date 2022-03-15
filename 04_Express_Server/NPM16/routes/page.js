@@ -1,3 +1,4 @@
+const { hash } = require('bcrypt');
 const express = require('express');
 const {Post, User, Hashtag} = require('../models');
 
@@ -50,4 +51,47 @@ router.get('/', async (req, res, next)=>{
 router.get('/join', async (req, res, next)=>{
     res.render('join', {title : '회원가입 - Nodegram'});
 });
+
+router.get('/hashtag', async (req, res, next)=>{
+    const query = req.query.hashtag;
+    if(!query){
+        return res.redirect('/');
+    }
+    try{
+        const hashtag = await Hashtag.findOne({
+            where : {title : query},
+        });
+        let posts = [];
+        if(hashtag){
+            posts = await hashtag.getPosts({
+                include : [{
+                    model : User,
+                }],
+            });
+        }
+
+        return res.render('main', {
+            title : `${query} | NodeGram`, 
+            user:req.user, 
+            followerCount : req.user ? req.user.Followers.length : 0,
+            followingCount : req.user ? req.user.Followings.length : 0,
+            followerIdList : req.user ? req.user.Followings.map(f=>f.id) : [],
+            posts,
+        });
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
+
+router.get('/profile', (req, res)=>{
+    res.render('profile', {
+        title : '내 정보 - NodeGram', 
+        user:req.user, 
+        followerCount : req.user ? req.user.Followers.length : 0,
+        followingCount : req.user ? req.user.Followings.length : 0,
+        followerIdList : req.user ? req.user.Followings.map(f=>f.id) : [],
+    });
+})
+
 module.exports = router;
