@@ -19,12 +19,27 @@ router.get('/', async (req, res, next)=>{
             },
             order : [['createdAt', 'DESC']],
         });
+
+        let followerCount = 0;
+        let followingCount = 0;
+        let followerIdList = [];
+        /* if(req.user.Followers){
+            followerCount = req.user.Followers.length
+        }
+        if(req.user.followings){
+            followerCount = req.user.Followings.length
+            followerIdList = req.user.Followings.map(f=>f.id);
+        } */
+
         res.render('main', {
             title : 'Nodegram', 
             user:req.user, 
-            followerCount:0, 
-            followingCount : 0, 
-            posts
+            // 로그인 유저가 없으면 0, 있으면 인원 수 (length-레코드 갯수)
+            followerCount : req.user ? req.user.Followers.length : 0,
+            followingCount : req.user ? req.user.Followings.length : 0,
+            // 로그인 유적 없으면 배열, 있으면 팔로잉들의 아이디 배열
+            followerIdList : req.user ? req.user.Followings.map(f=>f.id) : [],
+            posts,
         });
     }catch(err){
         console.error(err);

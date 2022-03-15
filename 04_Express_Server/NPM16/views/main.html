@@ -31,9 +31,12 @@
             <!-- 아이디 --> <!-- 닉네임 -->
             <input type="hidden" value="{{post.id}}" class="twit-id">
             <input type="hidden" value="{{post.UserId}}" class="twit-user-id">
-            <div class="twit-author">{{post.id}} &nbsp;-&nbsp; {{post.User.nick}}
+            <div class="twit-author" style="font-family: Verdana;">{{post.id}} &nbsp;-&nbsp; {{post.User.nick}}
             </div>
+            <!-- 팔로워 한사람 혹은 자기자신의 포스트에는 팔로우 버튼 미공개 -->
+            {%if not followerIdList.includes(post.User.id) and post.User.id !== user.id%}
             <button class="twit-follow">팔로우하기</button><br><br>
+            {%endif%}
             <!-- content -->
             <div class="twit-content">{{post.content}}</div>
             <!-- 이미지 -->
