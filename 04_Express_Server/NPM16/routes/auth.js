@@ -56,4 +56,9 @@ router.get('/kakao/callback', passport.authenticate('kakao', { // 그다음은 �
     res.redirect('/');
 });
 
+router.get('/logout', (req, res)=>{
+    req.logout(); // 세션 쿠키 삭제
+    req.session.destroy();
+    res.redirect('/');
+})
 module.exports = router;
