@@ -9,7 +9,7 @@
                 <textarea name="content" id="twit" maxlength="140"></textarea>
             </div>
             <div class="img-preview">
-                <img src="" alt="미리보기" id="img-preview" style="display:none;" width="250">
+                <img src="" alt="미리보기" id="img-preview" width="250">
                 <input type="hidden" id="img-url" name="url">
             </div>
             <div>
@@ -24,7 +24,42 @@
         <form action="/hashtag" id="hashtag-form">
             <input type="text" name="hashtage" placeholder="태그 검색">
             <button class="btn">검색</button>
-        </form>
+        </form><br>
+
+        {% for post in posts %}
+        <div class="twit">
+            <!-- 아이디 --> <!-- 닉네임 -->
+            <input type="hidden" value="{{post.id}}" class="twit-id">
+            <input type="hidden" value="{{post.UserId}}" class="twit-user-id">
+            <div class="twit-author">{{post.id}} &nbsp;-&nbsp; {{post.User.nick}}</div>
+            <!-- content -->
+            <div class="twit-content">{{post.content}}</div>
+            <!-- 이미지 -->
+            {% if post.img %}
+            <div class="twit-img"><img src="{{post.img}}"></div>
+            {% endif%}
+        </div><br>
+        {% endfor%}
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    if(document.getElementById('img')){
+        document.getElementById('img').addEventListener('change', (e)=>{
+            const formData = new FormData();
+            formData.append('img', e.target.files[0]);
+            axios.post('/posts/img', formData)
+            .then((res)=>{
+                document.getElementById('img-url').value = res.data.url; // 히든태그에 url 대입
+                document.getElementById('img-preview').src = res.data.url; // 미리보기 태그 src 대입
+                document.getElementById('img-preview').style.display = 'inline'; // 미리보기 보이기
+            })
+            .catch((err)=>{
+                console.error(err);
+            });
+        });
+    }
+</script>
 {% endblock %}

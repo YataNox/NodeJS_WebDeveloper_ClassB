@@ -38,7 +38,7 @@
             formData.append('content', content);
             
             try{
-                await axios.post('/posts/posting', formData);
+                await axios.post('/post/posting', formData);
                 /* location.href='/'; */
             }catch(err){
                 console.error(err);
@@ -47,7 +47,7 @@
         });
 
         async function getPost(){
-            const res = await axios.get('/posts');
+            const res = await axios.get('/post');
             const posts = res.data;
             const tbody = document.querySelector('#post-list tbody');
             tbody.innerHTML = "";

@@ -12,8 +12,20 @@ const router = express.Router();
 router.get('/', async (req, res, next)=>{
     try{    
         // 포스트 검색
-        // const posts = await Post.findAll();
-        res.render('main', {title : 'Nodegram', user:req.user, followerCount:0, followingCount : 0} /*, posts */);
+        const posts = await Post.findAll({
+            include : {
+                model:User,
+                attribute : ['id', 'nick'],
+            },
+            order : [['createdAt', 'DESC']],
+        });
+        res.render('main', {
+            title : 'Nodegram', 
+            user:req.user, 
+            followerCount:0, 
+            followingCount : 0, 
+            posts
+        });
     }catch(err){
         console.error(err);
         next(err);

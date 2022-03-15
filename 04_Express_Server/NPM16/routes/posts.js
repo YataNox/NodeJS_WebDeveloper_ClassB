@@ -27,7 +27,7 @@ const upload = multer(
     limits:{ fileSize: 5*1024*1024},}
 ); 
 
-router.post('/posting', upload.single('img'), async (req, res, next)=>{
+/* router.post('/posting', upload.single('img'), async (req, res, next)=>{
     try{
         await Post.create({
             content:req.body.content,
@@ -55,6 +55,25 @@ router.get('/', async (req, res, next)=>{
         console.error(err);
         next(err);
     }
-})
+}) */
 
+router.post('/img', upload.single('img'), (req, res, next)=>{
+    console.log(`/img/${req.file.filename}`)
+    res.json({url: `/img/${req.file.filename}`});
+}); // 그림만 업로드하고, 저장된 경로를 json형식으로 되돌려줍니다.
+
+const upload2 = multer();
+router.post('/', upload2.none(), async (req, res, next)=>{
+    try{
+        const result = await Post.create({
+            content : req.body.content,
+            img : req.body.url,
+            UserId : req.user.id,
+        });
+        res.redirect('/');
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
 module.exports = router;
