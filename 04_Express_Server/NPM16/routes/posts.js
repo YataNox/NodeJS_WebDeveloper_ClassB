@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { Post, User, Hashtag} = require('../models');
+const {isLoggedIn, isNotLoggedIn } = require('./middleware');
 
 const router = express.Router();
 
@@ -57,13 +58,13 @@ router.get('/', async (req, res, next)=>{
     }
 }) */
 
-router.post('/img', upload.single('img'), (req, res, next)=>{
+router.post('/img', isLoggedIn, upload.single('img'), (req, res, next)=>{
     console.log(`/img/${req.file.filename}`)
     res.json({url: `/img/${req.file.filename}`});
 }); // 그림만 업로드하고, 저장된 경로를 json형식으로 되돌려줍니다.
 
 const upload2 = multer();
-router.post('/', upload2.none(), async (req, res)=>{
+router.post('/', isLoggedIn,upload2.none(), async (req, res)=>{
     try{
         const currentPost = await Post.create({
             content: req.body.content,

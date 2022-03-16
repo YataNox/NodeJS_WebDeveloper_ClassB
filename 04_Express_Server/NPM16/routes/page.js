@@ -1,6 +1,7 @@
 const { hash } = require('bcrypt');
 const express = require('express');
 const {Post, User, Hashtag} = require('../models');
+const {isLoggedIn, isNotLoggedIn } = require('./middleware');
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router.get('/', async (req, res, next)=>{
     }
 });
 
-router.get('/join', async (req, res, next)=>{
+router.get('/join', isNotLoggedIn, async (req, res, next)=>{
     res.render('join', {title : '회원가입 - Nodegram'});
 });
 

@@ -1,10 +1,11 @@
 const express = require('express');
 const User = require('../models/user');
+const {isLoggedIn, isNotLoggedIn } = require('./middleware');
 
 const router = express.Router();
 
 // 로그인유저(나)가 전달된 :id 주인공을 팔로우 하겠습니다
-router.post('/:id/follow', async (req, res, next)=>{
+router.post('/:id/follow', isLoggedIn, async (req, res, next)=>{
     try{
       const user = await User.findOne({ where: {id: req.user.id } }); // 로그인 유저의 user정보 조회
       if(user){
